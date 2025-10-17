@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+Always use English as your coding language. My pc is Windows  powershell commands. If you haven't made a todo list yet, make one with as many steps and long explanations as possible. 
+Variables, functions, classes and file names must be in English.
+
+Never Hardcode API keys, private keys etc. on your code or comments. Always give short and concise answers. Avoid unnecessary filler expressions, repetitions and long introductory sentences. Do not delete other versions This update will summarize the important changes, new features added or bugs fixed.
+Always use Context7 MCP tools when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
+After every implementation create necessary documentation file or files for the implementation at docs/about,api,ecosystem,error-reference,examples,glossary,guide,partners,public,style-guide,translations,tutorial folders.
+

@@ -1,0 +1,21 @@
+{
+  "name": "ack-framework",
+  "version": "0.0.1",
+  "description": "Apex Component Kit - Next-generation JavaScript framework",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4",
+    "@vitest/ui": "^1.0.4"
+  }
+}
