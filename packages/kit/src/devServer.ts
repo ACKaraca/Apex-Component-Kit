@@ -46,7 +46,7 @@ export async function startDevServer(options: DevServerOptions = {}): Promise<Vi
       port,
       host,
       open,
-      https
+      // https: https
     },
     resolve: {
       alias: {

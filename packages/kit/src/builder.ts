@@ -46,7 +46,8 @@ export async function buildApp(options: BuildOptions = {}): Promise<void> {
           entryFileNames: 'js/[name].[hash].js',
           chunkFileNames: 'js/[name].[hash].js',
           assetFileNames: (assetInfo) => {
-            const info = assetInfo.name.split('.');
+            const name = assetInfo.name || 'asset';
+            const info = name.split('.');
             const ext = info[info.length - 1];
             if (/png|jpe?g|gif|svg/.test(ext)) {
               return `images/[name].[hash][extname]`;

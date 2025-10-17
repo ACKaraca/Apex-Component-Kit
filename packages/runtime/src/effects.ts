@@ -3,7 +3,7 @@
  * Türkçe: Bu modül, computed properties ve side effects'leri yönetir.
  */
 
-export type EffectCleanup = (() => void) | void;
+export type EffectCleanup = (() => void) | void | null;
 export type EffectCallback = () => EffectCleanup;
 
 export interface EffectOptions {

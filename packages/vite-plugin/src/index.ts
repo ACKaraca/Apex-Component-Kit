@@ -3,7 +3,7 @@
  * Türkçe: Bu plugin .ack dosyalarını Vite dev server'da işleyen ve HMR desteği sağlayan plugin'dir.
  */
 
-import type { Plugin, ViteDevServer } from 'vite';
+import type { Plugin, ViteDevServer, HMRPayload } from 'vite';
 import { compile } from '@ack/compiler';
 import fs from 'fs';
 import path from 'path';
@@ -112,12 +112,11 @@ export default function ackPlugin(options: AckPluginOptions = {}): Plugin {
           // Cache'i güncelle
           fileModuleCache.set(file, result.code);
 
-          // Full reload yap
-          server.ws.send({
-            type: 'full',
-            event: 'full-reload',
-            reason: 'ACK component updated'
-          });
+          // Perform full reload using HMR
+          const payload: HMRPayload = {
+            type: 'full-reload'
+          };
+          server.ws.send(payload);
 
           return [];
         } catch (error) {

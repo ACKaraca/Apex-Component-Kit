@@ -192,7 +192,7 @@ export class ESMGenerator {
       code += '  // Event handlers\n';
 
       this.component.templateBlock.events.forEach((event) => {
-        code += `  const ${event.element}_${event.type}_handler = ${event.handler};\n`;
+        code += `  const ${event.element}_${event.event}_handler = ${event.handler};\n`;
       });
 
       code += '\n';
