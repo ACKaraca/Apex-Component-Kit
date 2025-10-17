@@ -1,0 +1,38 @@
+{
+  "name": "@ack/kit",
+  "version": "0.0.1",
+  "description": "ACK Kit - Full-featured application framework built on @ack/compiler",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "ack": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ack/compiler": "workspace:*",
+    "@ack/runtime": "workspace:*",
+    "@ack/vite-plugin": "workspace:*",
+    "vite": "^5.0.5",
+    "esbuild": "^0.19.11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  }
+}
