@@ -1,6 +1,6 @@
 /**
  * @ack/compiler - Public API
- * Türkçe: Bu dosya derleyicinin tüm public API'sini export eder.
+ * English: This file exports all public APIs of the compiler.
  */
 
 // Parser exports
@@ -50,6 +50,15 @@ export type {
   CompileError,
   CompileWarning,
 } from './types/index';
+
+// Internal imports for the compile function
+import { ComponentParser } from './parser/componentParser';
+import { ReactivityAnalyzer } from './analyzer/reactivityAnalyzer';
+import { DependencyGraph } from './analyzer/dependencyGraph';
+import { ESMGenerator } from './codegen/esmGenerator';
+import { CJSGenerator } from './codegen/cjsGenerator';
+import { HydrationCodeGen } from './codegen/hydrationCodeGen';
+import type { CompileResult } from './types/index';
 
 /**
  * Main compiler function - .ack dosyasını derle
@@ -158,5 +167,5 @@ export function compile(
   }
 }
 
-// Re-export key types
-export type { CompileResult } from './types/index';
+// Re-export key types - already exported above from './types/index'
+// Removed duplicate CompileResult export

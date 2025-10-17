@@ -1,10 +1,10 @@
 /**
  * @ack/runtime - Public API
- * Türkçe: Runtime paketinin tüm public API'sini export eder.
+ * Turkish: Exports all public APIs from the runtime package.
  */
 
 // Reactivity exports
-export {
+import {
   createReactive,
   watch,
   isReactive,
@@ -15,7 +15,7 @@ export {
 } from './reactivity';
 
 // Mount exports
-export {
+import {
   mount,
   unmount,
   hydrate,
@@ -24,9 +24,8 @@ export {
 } from './mount';
 
 // Effects exports
-export {
+import {
   createEffect,
-  computed as computedEffect,
   memo,
   batch,
   scheduledEffect,
@@ -37,13 +36,37 @@ export {
   type EffectOptions,
 } from './effects';
 
+export {
+  createReactive,
+  watch,
+  isReactive,
+  computed,
+  clearWatchers,
+  type WatcherCallback,
+  type ReactiveObject,
+  mount,
+  unmount,
+  hydrate,
+  ComponentManager,
+  type ACKComponent,
+  createEffect,
+  memo,
+  batch,
+  scheduledEffect,
+  Computed,
+  EffectManager,
+  type EffectCallback,
+  type EffectCleanup,
+  type EffectOptions,
+};
+
 /**
  * Framework version
  */
 export const VERSION = '0.0.1';
 
 /**
- * Genel utility - all exports'u bir obje'de sun.
+ * General utility - expose all exports in a single object
  */
 export const ACKRuntime = {
   // Reactivity

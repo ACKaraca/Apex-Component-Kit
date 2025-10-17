@@ -26,9 +26,10 @@ export interface TemplateAttribute {
 }
 
 export interface EventBinding {
-  type: string;
-  handler: string;
   element: string;
+  event: string;
+  handler: string;
+  line: number;
 }
 
 export class TemplateParser {
@@ -127,9 +128,10 @@ export class TemplateParser {
         // Event binding'i trackle
         if (attr.isBinding) {
           this.events.push({
-            type: attr.name.replace('@', ''),
-            handler: attr.value,
             element: tag,
+            event: attr.name.replace('@', ''),
+            handler: attr.value,
+            line: this.calculateLineNumber(),
           });
         }
       }
@@ -309,5 +311,18 @@ export class TemplateParser {
       type: 'text',
       content,
     };
+  }
+
+  /**
+   * Calculate the current line number in the source string.
+   */
+  private calculateLineNumber(): number {
+    let line = 1;
+    for (let i = 0; i < this.position; i++) {
+      if (this.source[i] === '\n') {
+        line++;
+      }
+    }
+    return line;
   }
 }
