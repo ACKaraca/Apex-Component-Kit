@@ -103,7 +103,7 @@ export class HydrationCodeGen {
     code += '  const events = [\n';
 
     this.component.templateBlock.events.forEach((event) => {
-      code += `    { element: '${event.element}', type: '${event.type}', handler: '${event.handler}' },\n`;
+      code += `    { element: '${event.element}', event: '${event.event}', handler: '${event.handler}' },\n`;
     });
 
     code += '  ];\n\n';
