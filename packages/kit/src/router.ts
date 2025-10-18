@@ -1,26 +1,396 @@
 /**
- * Router - File-based routing sistemi
- * Türkçe: Bu modül, src/pages dizininden otomatik olarak route'lar üretir.
+ * Advanced Router - İleri routing sistemi middleware ve guards ile
+ * Türkçe: Middleware pipeline, route guards, hooks, nested layouts ve meta bilgileri destekleyen router
  */
 
 import fs from 'fs';
 import path from 'path';
 
+// ============================================================================
+// TİPLERİ TANIMLA
+// ============================================================================
+
+/**
+ * Route Meta - Route'a ait meta bilgileri
+ */
+export interface RouteMeta {
+  title?: string;
+  description?: string;
+  requiresAuth?: boolean;
+  roles?: string[];
+  layout?: string;
+  preload?: boolean;
+  [key: string]: any;
+}
+
+/**
+ * Route Parametreleri - URL'den çıkartılan parametreler
+ */
+export interface RouteParams {
+  [key: string]: string | string[];
+}
+
+/**
+ * Route Context - Aktif route hakkında bilgi
+ */
+export interface RouteContext {
+  path: string;
+  name: string;
+  component: string;
+  params: RouteParams;
+  query: Record<string, string>;
+  meta?: RouteMeta;
+  matched: Route[];
+  parent?: Route;
+}
+
+/**
+ * Middleware Fonksiyonu Türü
+ */
+export type MiddlewareFn = (ctx: RouteContext, next: () => Promise<void>) => Promise<void>;
+
+/**
+ * Route Guard Fonksiyonu Türü - false dönerse navigasyon iptal
+ */
+export type GuardFn = (ctx: RouteContext) => boolean | Promise<boolean>;
+
+/**
+ * Navigation Hook Fonksiyonu Türü
+ */
+export type HookFn = (ctx: RouteContext) => void | Promise<void>;
+
+/**
+ * Route Tanımı
+ */
 export interface Route {
   path: string;
   component: string;
   name?: string;
-}
-
-export interface RouterConfig {
-  routes: Route[];
-  basePath?: string;
+  meta?: RouteMeta;
+  children?: Route[];
+  layout?: string;
+  beforeEnter?: GuardFn[];
+  beforeLeave?: GuardFn[];
 }
 
 /**
- * src/pages dizininden route'ları keşfet
+ * Router Konfigürasyonu
  */
-export function discoverRoutes(pagesDir: string, basePath: string = ''): Route[] {
+export interface RouterConfig {
+  routes: Route[];
+  basePath?: string;
+  layout?: string;
+  middlewares?: MiddlewareFn[];
+  beforeEach?: HookFn[];
+  afterEach?: HookFn[];
+}
+
+/**
+ * Router Durumu
+ */
+export interface RouterState {
+  current: RouteContext | null;
+  previous: RouteContext | null;
+  isNavigating: boolean;
+  history: RouteContext[];
+}
+
+// ============================================================================
+// TEMEL ROUTER SINIFI
+// ============================================================================
+
+/**
+ * Advanced Router Sınıfı
+ */
+export class AdvancedRouter {
+  private routes: Route[] = [];
+  private middlewares: MiddlewareFn[] = [];
+  private beforeEachHooks: HookFn[] = [];
+  private afterEachHooks: HookFn[] = [];
+  private basePath: string = '/';
+  private state: RouterState = {
+    current: null,
+    previous: null,
+    isNavigating: false,
+    history: []
+  };
+
+  constructor(config: RouterConfig) {
+    this.routes = config.routes;
+    this.middlewares = config.middlewares || [];
+    this.beforeEachHooks = config.beforeEach || [];
+    this.afterEachHooks = config.afterEach || [];
+    this.basePath = config.basePath || '/';
+  }
+
+  /**
+   * Middleware ekle
+   */
+  use(middleware: MiddlewareFn): void {
+    this.middlewares.push(middleware);
+  }
+
+  /**
+   * Navigation öncesi hook ekle
+   */
+  beforeEach(hook: HookFn): void {
+    this.beforeEachHooks.push(hook);
+  }
+
+  /**
+   * Navigation sonrası hook ekle
+   */
+  afterEach(hook: HookFn): void {
+    this.afterEachHooks.push(hook);
+  }
+
+  /**
+   * Route'u pathname'e göre eşleştir
+   */
+  private matchRoute(pathname: string, routes: Route[] = this.routes, parent?: Route): { route: Route; matched: Route[] } | null {
+    for (const route of routes) {
+      const pattern = this.pathToRegex(route.path);
+      const match = pathname.match(pattern);
+
+      if (match) {
+        const matched = parent ? [parent, route] : [route];
+        return { route, matched };
+      }
+
+      // Nested routes kontrol et
+      if (route.children && route.children.length > 0) {
+        const nestedMatch = this.matchRoute(pathname, route.children, route);
+        if (nestedMatch) {
+          return nestedMatch;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Path pattern'ini Regex'e dönüştür
+   */
+  private pathToRegex(path: string): RegExp {
+    const pattern = path
+      .replace(/\//g, '\\/')
+      .replace(/:\w+/g, '([^\\/]+)')
+      .replace(/\.\.\./g, '.*');
+    return new RegExp(`^${pattern}$`);
+  }
+
+  /**
+   * URL parametrelerini çıkart
+   */
+  private extractParams(pathname: string, routePath: string): RouteParams {
+    const pattern = routePath.split('/');
+    const segments = pathname.split('/');
+    const params: RouteParams = {};
+
+    for (let i = 0; i < pattern.length; i++) {
+      if (pattern[i].startsWith(':')) {
+        const paramName = pattern[i].slice(1);
+        params[paramName] = segments[i];
+      }
+    }
+
+    return params;
+  }
+
+  /**
+   * Query string'i parse et
+   */
+  private parseQuery(search: string): Record<string, string> {
+    const query: Record<string, string> = {};
+    if (!search) return query;
+
+    try {
+      const params = new URLSearchParams(search);
+      params.forEach((value, key) => {
+        query[key] = value;
+      });
+    } catch (error) {
+      // URL parsing hatası - boş query döndür
+    }
+
+    return query;
+  }
+
+  /**
+   * Route guards'ı çalıştır
+   */
+  private async executeGuards(route: Route, direction: 'enter' | 'leave', ctx: RouteContext): Promise<boolean> {
+    const guards = direction === 'enter' ? route.beforeEnter : route.beforeLeave;
+
+    if (!guards || guards.length === 0) return true;
+
+    for (const guard of guards) {
+      const result = await guard(ctx);
+      if (!result) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Middleware pipeline'ı çalıştır
+   */
+  private async executeMiddlewares(ctx: RouteContext): Promise<void> {
+    let index = 0;
+
+    const next = async (): Promise<void> => {
+      if (index < this.middlewares.length) {
+        await this.middlewares[index++](ctx, next);
+      }
+    };
+
+    await next();
+  }
+
+  /**
+   * Route'a navigate et
+   */
+  async navigate(pathname: string, options?: { replace?: boolean }): Promise<boolean> {
+    if (this.state.isNavigating) return false;
+
+    this.state.isNavigating = true;
+
+    try {
+      // Route'u bul
+      const match = this.matchRoute(pathname);
+      if (!match) {
+        console.error(`Route not found: ${pathname}`);
+        return false;
+      }
+
+      const { route, matched } = match;
+      const params = this.extractParams(pathname, route.path);
+      
+      // Query string'i al - window ortamında yoksa boş string
+      let search = '';
+      try {
+        search = typeof window !== 'undefined' ? window.location.search : '';
+      } catch {
+        search = '';
+      }
+      const query = this.parseQuery(search);
+
+      // Route context'i oluştur
+      const ctx: RouteContext = {
+        path: pathname,
+        name: route.name || route.path,
+        component: route.component,
+        params,
+        query,
+        meta: route.meta,
+        matched,
+        parent: matched.length > 1 ? matched[matched.length - 2] : undefined
+      };
+
+      // beforeEach hooks'ları çalıştır
+      for (const hook of this.beforeEachHooks) {
+        await hook(ctx);
+      }
+
+      // Mevcut route'dan ayrıl (guards kontrol et)
+      if (this.state.current) {
+        const canLeave = await this.executeGuards(this.state.current.matched[0], 'leave', ctx);
+        if (!canLeave) {
+          return false;
+        }
+      }
+
+      // Yeni route'a gir (guards kontrol et)
+      const canEnter = await this.executeGuards(route, 'enter', ctx);
+      if (!canEnter) {
+        return false;
+      }
+
+      // Middleware'ları çalıştır
+      await this.executeMiddlewares(ctx);
+
+      // State'i güncelle
+      this.state.previous = this.state.current;
+      this.state.current = ctx;
+      this.state.history.push(ctx);
+
+      // afterEach hooks'ları çalıştır
+      for (const hook of this.afterEachHooks) {
+        await hook(ctx);
+      }
+
+      // History API güncelle
+      if (!options?.replace) {
+        if (typeof window !== 'undefined' && window.history) {
+          window.history.pushState(ctx, '', pathname);
+        }
+      } else {
+        if (typeof window !== 'undefined' && window.history) {
+          window.history.replaceState(ctx, '', pathname);
+        }
+      }
+
+      return true;
+    } finally {
+      this.state.isNavigating = false;
+    }
+  }
+
+  /**
+   * Geri git
+   */
+  back(): void {
+    if (typeof window !== 'undefined' && window.history) {
+      window.history.back();
+    }
+  }
+
+  /**
+   * İleri git
+   */
+  forward(): void {
+    if (typeof window !== 'undefined' && window.history) {
+      window.history.forward();
+    }
+  }
+
+  /**
+   * Router state'ini al
+   */
+  getState(): RouterState {
+    return { ...this.state };
+  }
+
+  /**
+   * Mevcut route context'ini al
+   */
+  getCurrentRoute(): RouteContext | null {
+    return this.state.current;
+  }
+
+  /**
+   * Tüm route'ları al (nested de dahil)
+   */
+  getAllRoutes(): Route[] {
+    const collect = (routes: Route[]): Route[] => {
+      return routes.flatMap((route) => [route, ...(route.children ? collect(route.children) : [])]);
+    };
+
+    return collect(this.routes);
+  }
+}
+
+// ============================================================================
+// DİSKOVERY VE AYAR FONKSİYONLARI
+// ============================================================================
+
+/**
+ * src/pages dizininden route'ları keşfet (Advanced yapı için)
+ */
+export function discoverAdvancedRoutes(pagesDir: string, basePath: string = ''): Route[] {
   const routes: Route[] = [];
 
   if (!fs.existsSync(pagesDir)) {
@@ -34,34 +404,35 @@ export function discoverRoutes(pagesDir: string, basePath: string = ''): Route[]
     const relativePath = path.join(basePath, entry.name);
 
     if (entry.isDirectory()) {
-      // Recursive olarak alt dizinleri keşfet
-      const nestedRoutes = discoverRoutes(fullPath, relativePath);
-      routes.push(...nestedRoutes);
-
-      // index.ack dosyasını kontrol et (optional nested route)
+      // Nested routes keşfet
       const indexFile = path.join(fullPath, 'index.ack');
+      const childrenDir = fullPath;
+
       if (fs.existsSync(indexFile)) {
         const routePath = convertPathToRoute(relativePath);
+        const children = discoverAdvancedRoutes(childrenDir, relativePath);
+
         routes.push({
-          path: routePath,
+          path: routePath || '/',
           component: indexFile,
-          name: generateRouteName(relativePath)
+          name: generateRouteName(relativePath),
+          children: children.length > 0 ? children : undefined
         });
+      } else {
+        // Children yok, doğrudan keşfet
+        const nestedRoutes = discoverAdvancedRoutes(childrenDir, relativePath);
+        routes.push(...nestedRoutes);
       }
     } else if (entry.name.endsWith('.ack')) {
-      // .ack dosyalarını route'a dönüştür
-      let routePath = convertPathToRoute(relativePath);
+      if (entry.name !== 'index.ack') {
+        let routePath = convertPathToRoute(relativePath);
 
-      // index.ack → / (ya da /nested)
-      if (entry.name === 'index.ack') {
-        routePath = basePath ? `/${convertPathToRoute(basePath)}` : '/';
+        routes.push({
+          path: routePath,
+          component: fullPath,
+          name: generateRouteName(relativePath.replace('.ack', ''))
+        });
       }
-
-      routes.push({
-        path: routePath,
-        component: fullPath,
-        name: generateRouteName(relativePath.replace('.ack', ''))
-      });
     }
   }
 
@@ -72,24 +443,15 @@ export function discoverRoutes(pagesDir: string, basePath: string = ''): Route[]
  * Dosya yolunu route path'ine dönüştür
  */
 function convertPathToRoute(filePath: string): string {
-  // Normalize path separators
   let route = filePath.replace(/\\/g, '/');
-
-  // index.ack → /
   route = route.replace(/\/index(?:\.ack)?$/, '');
-
-  // .ack extension kaldır
   route = route.replace(/\.ack$/, '');
-
-  // [param] → :param (dynamic segments)
   route = route.replace(/\[([^\]]+)\]/g, ':$1');
 
-  // Başına / ekle
   if (!route.startsWith('/')) {
     route = '/' + route;
   }
 
-  // Sondaki / kaldır (root route hariç)
   if (route !== '/' && route.endsWith('/')) {
     route = route.slice(0, -1);
   }
@@ -113,13 +475,117 @@ function generateRouteName(filePath: string): string {
 }
 
 /**
- * Router konfigürasyonunu oluştur
+ * Advanced Router'ı oluştur
+ */
+export function createAdvancedRouter(srcDir: string = './src', config?: Partial<RouterConfig>): AdvancedRouter {
+  const pagesDir = path.join(srcDir, 'pages');
+  const routes = discoverAdvancedRoutes(pagesDir);
+
+  // Root route varsa, başa taşı
+  const rootRoute = routes.find((r) => r.path === '/');
+  if (rootRoute) {
+    routes.splice(routes.indexOf(rootRoute), 1);
+    routes.unshift(rootRoute);
+  }
+
+  return new AdvancedRouter({
+    routes,
+    basePath: config?.basePath || '/',
+    middlewares: config?.middlewares,
+    beforeEach: config?.beforeEach,
+    afterEach: config?.afterEach
+  });
+}
+
+// ============================================================================
+// HAZIR MIDDLEWARE'LAR
+// ============================================================================
+
+/**
+ * Authentication middleware - Auth kontrolü
+ */
+export function createAuthMiddleware(isAuthenticated: () => boolean): MiddlewareFn {
+  return async (ctx: RouteContext, next: () => Promise<void>) => {
+    if (ctx.meta?.requiresAuth && !isAuthenticated()) {
+      console.warn(`Unauthenticated access denied to ${ctx.path}`);
+      return;
+    }
+
+    await next();
+  };
+}
+
+/**
+ * Role-based access control middleware
+ */
+export function createRbacMiddleware(getUserRoles: () => string[]): MiddlewareFn {
+  return async (ctx: RouteContext, next: () => Promise<void>) => {
+    if (ctx.meta?.roles && ctx.meta.roles.length > 0) {
+      const userRoles = getUserRoles();
+      const hasAccess = ctx.meta.roles.some((role) => userRoles.includes(role));
+
+      if (!hasAccess) {
+        console.warn(`Access denied to ${ctx.path} - insufficient permissions`);
+        return;
+      }
+    }
+
+    await next();
+  };
+}
+
+/**
+ * Analytics middleware - Page view tracking
+ */
+export function createAnalyticsMiddleware(trackPageView: (path: string, title: string) => void): MiddlewareFn {
+  return async (ctx: RouteContext, next: () => Promise<void>) => {
+    trackPageView(ctx.path, ctx.name);
+    await next();
+  };
+}
+
+/**
+ * Page title middleware - Document title'ı güncelle
+ */
+export function createPageTitleMiddleware(): MiddlewareFn {
+  return async (ctx: RouteContext, next: () => Promise<void>) => {
+    if (ctx.meta?.title) {
+      document.title = ctx.meta.title;
+    }
+
+    await next();
+  };
+}
+
+/**
+ * Loading middleware - Loading durumu yönet
+ */
+export function createLoadingMiddleware(
+  onStart: () => void,
+  onEnd: () => void
+): MiddlewareFn {
+  return async (ctx: RouteContext, next: () => Promise<void>) => {
+    onStart();
+
+    try {
+      await next();
+    } finally {
+      onEnd();
+    }
+  };
+}
+
+// ============================================================================
+// ESKI FONKSİYONLAR (GERİ UYUMLULUK)
+// ============================================================================
+
+/**
+ * Eski createRouter fonksiyonu - Geri uyumluluk
  */
 export function createRouter(srcDir: string = './src'): RouterConfig {
   const pagesDir = path.join(srcDir, 'pages');
-  const routes = discoverRoutes(pagesDir);
+  const routes = discoverAdvancedRoutes(pagesDir);
 
-  // Root route varsa, başa taşı
   const rootRoute = routes.find((r) => r.path === '/');
   if (rootRoute) {
     routes.splice(routes.indexOf(rootRoute), 1);
@@ -133,92 +599,8 @@ export function createRouter(srcDir: string = './src'): RouterConfig {
 }
 
 /**
- * Router konfigürasyonını JavaScript kodu olarak oluştur
+ * Eski discoverRoutes fonksiyonu - Geri uyumluluk
  */
-export function generateRouterCode(config: RouterConfig): string {
-  const routesArray = config.routes
-    .map((route) => {
-      return `{
-    path: '${route.path}',
-    name: '${route.name || route.path}',
-    component: () => import('${route.component}')
-  }`;
-    })
-    .join(',\n    ');
-
-  return `
-// Generated router configuration
-export const routes = [
-    ${routesArray}
-];
-
-export const router = {
-  routes,
-  basePath: '${config.basePath}',
-  
-  matchRoute(pathname) {
-    for (const route of this.routes) {
-      const pattern = new RegExp('^' + route.path.replace(/:[^/]+/g, '[^/]+') + '$');
-      if (pattern.test(pathname)) {
-        return route;
-      }
-    }
-    return null;
-  },
-  
-  async navigate(pathname) {
-    const route = this.matchRoute(pathname);
-    if (route) {
-      const component = await route.component();
-      return component.default;
-    }
-    throw new Error(\`Route not found: \${pathname}\`);
-  }
-};
-`;
-}
-
-/**
- * Example router usage
- */
-export function createExampleRouterHtml(config: RouterConfig): string {
-  return `
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ACK Router Example</title>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="module">
-    import { router } from './router.js';
-    
-    const appElement = document.getElementById('app');
-    
-    async function navigate(pathname) {
-      try {
-        const component = await router.navigate(pathname);
-        // Component'i mount et
-        if (component && component.mount) {
-          component.mount(appElement);
-        }
-      } catch (error) {
-        console.error('Navigation error:', error);
-        appElement.innerHTML = '<p>Route not found</p>';
-      }
-    }
-    
-    // Initial route
-    navigate(window.location.pathname);
-    
-    // History API
-    window.addEventListener('popstate', () => {
-      navigate(window.location.pathname);
-    });
-  </script>
-</body>
-</html>
-`;
+export function discoverRoutes(pagesDir: string, basePath: string = ''): Route[] {
+  return discoverAdvancedRoutes(pagesDir, basePath);
 }

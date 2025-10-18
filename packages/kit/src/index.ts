@@ -13,17 +13,49 @@ export type { DevServerOptions };
 import {
   discoverRoutes,
   createRouter,
-  generateRouterCode,
-  createExampleRouterHtml
+  createAdvancedRouter,
+  discoverAdvancedRoutes,
+  AdvancedRouter,
+  createAuthMiddleware,
+  createRbacMiddleware,
+  createAnalyticsMiddleware,
+  createPageTitleMiddleware,
+  createLoadingMiddleware
 } from './router';
-import type { Route, RouterConfig } from './router';
+import type {
+  Route,
+  RouterConfig,
+  RouteContext,
+  RouteMeta,
+  RouteParams,
+  RouterState,
+  MiddlewareFn,
+  GuardFn,
+  HookFn
+} from './router';
 export {
   discoverRoutes,
   createRouter,
-  generateRouterCode,
-  createExampleRouterHtml
+  createAdvancedRouter,
+  discoverAdvancedRoutes,
+  AdvancedRouter,
+  createAuthMiddleware,
+  createRbacMiddleware,
+  createAnalyticsMiddleware,
+  createPageTitleMiddleware,
+  createLoadingMiddleware
 };
-export type { Route, RouterConfig };
+export type {
+  Route,
+  RouterConfig,
+  RouteContext,
+  RouteMeta,
+  RouteParams,
+  RouterState,
+  MiddlewareFn,
+  GuardFn,
+  HookFn
+};
 
 // Builder exports
 import { buildApp, runBuild } from './builder';
@@ -53,5 +85,7 @@ export const ACKKit = {
   closeDevServer,
   buildApp,
   createRouter,
-  discoverRoutes
+  createAdvancedRouter,
+  discoverRoutes,
+  AdvancedRouter
 };
