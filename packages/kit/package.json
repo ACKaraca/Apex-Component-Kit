@@ -1,7 +1,7 @@
 {
   "name": "@ack/kit",
   "version": "0.0.1",
-  "description": "ACK Kit - Full-featured application framework built on @ack/compiler",
+  "description": "ACK Application Framework - Complete dev server, routing, and build system",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -20,14 +20,15 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@ack/compiler": "workspace:*",
     "@ack/runtime": "workspace:*",
     "@ack/vite-plugin": "workspace:*",
-    "vite": "^5.0.5",
+    "vite": "^5.0.0",
     "esbuild": "^0.19.11"
   },
   "devDependencies": {

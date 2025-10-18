@@ -1,7 +1,7 @@
 {
   "name": "@ack/vite-plugin",
   "version": "0.0.1",
-  "description": "Vite plugin for ACK framework - integrates .ack components with Vite dev server",
+  "description": "Vite plugin for ACK components",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,20 +17,17 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "lint": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "vite": "^5.0.0",
-    "@ack/compiler": "^0.0.1"
-  },
   "dependencies": {
-    "@ack/compiler": "workspace:*"
+    "@ack/compiler": "workspace:*",
+    "vite": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
     "typescript": "^5.3.3",
-    "vitest": "^1.0.4",
-    "vite": "^5.0.5"
+    "vitest": "^1.0.4"
   }
 }
