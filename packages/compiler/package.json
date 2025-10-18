@@ -17,7 +17,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

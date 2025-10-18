@@ -6,8 +6,8 @@
 import { ReactiveVariable, DependencyNode as DependencyNodeType } from '../types/index';
 
 export class DependencyGraph {
-  private nodes: Map<string, DependencyNodeType> = new Map();
-  private edges: Map<string, string[]> = new Map();
+  public nodes: Map<string, DependencyNodeType> = new Map();
+  public edges: Map<string, string[]> = new Map();
 
   /**
    * Grafiği reaktif değişkenlerden oluştur.
@@ -199,5 +199,51 @@ export class DependencyGraph {
    */
   public getNode(name: string): DependencyNodeType | undefined {
     return this.nodes.get(name);
+  }
+
+  /**
+   * Topological sort (alias for getTopologicalOrder)
+   */
+  public topologicalSort(): string[] {
+    return this.getTopologicalOrder();
+  }
+
+  /**
+   * Grafikte döngü (cycle) olup olmadığını kontrol et
+   */
+  public hasCyclicDependency(): boolean {
+    const visited = new Set<string>();
+    const recursionStack = new Set<string>();
+
+    const hasCycle = (nodeName: string): boolean => {
+      visited.add(nodeName);
+      recursionStack.add(nodeName);
+
+      const node = this.nodes.get(nodeName);
+      if (!node) return false;
+
+      for (const dep of node.dependencies) {
+        if (!visited.has(dep)) {
+          if (hasCycle(dep)) {
+            return true;
+          }
+        } else if (recursionStack.has(dep)) {
+          return true;
+        }
+      }
+
+      recursionStack.delete(nodeName);
+      return false;
+    };
+
+    for (const node of this.nodes.values()) {
+      if (!visited.has(node.name)) {
+        if (hasCycle(node.name)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
