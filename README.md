@@ -2,9 +2,6 @@
 
 **Apex Component Kit (ACK)** - Next-generation JavaScript framework.
 
-## 🚀 Project Status
-
-This repository implements **Phase 1: Core Compiler (@ack/compiler)** and **Runtime (@ack/runtime)** packages.
 
 ## 📁 Project Structure
 
@@ -203,12 +200,29 @@ DOM elements updated surgically
 
 ## 🧪 Testing Strategy
 
-Unit and integration tests are planned for:
+Unit and integration tests are **now implemented** for:
 
-- Parser tests (TokenLexer, BlockParser, etc.)
-- Analyzer tests (ReactivityAnalyzer, DependencyGraph)
-- CodeGenerator tests (ESM, CJS output validation)
-- Full pipeline integration tests
+- ✅ Parser tests (TokenLexer, BlockParser, TemplateParser, StyleParser, ComponentParser)
+- ✅ Analyzer tests (ReactivityAnalyzer, DependencyGraph)
+- ✅ Full pipeline integration tests (55+ test cases)
+
+### Running Tests
+
+```bash
+# All tests
+pnpm --filter @ack/compiler test
+
+# Watch mode
+pnpm --filter @ack/compiler test:watch
+```
+
+**Test Coverage:**
+- 12 Analyzer Tests
+- 26 Parser Tests
+- 17 Integration Tests
+- **Total: 55+ test cases**
+
+See `packages/compiler/README.md#🧪-test-çalıştırma` for detailed test documentation.
 
 ## 📚 Documentation
 
@@ -216,7 +230,6 @@ Unit and integration tests are planned for:
 - **ARCHITECTURE.md** - Detailed system architecture
 - **packages/compiler/README.md** - Compiler API
 - **packages/runtime/README.md** - Runtime API
-- **FAZ2_README.md** - Phase 2: Application Kit
 
 ## 🔮 Next Phases (Phase 2+)
 

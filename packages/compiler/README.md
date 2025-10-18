@@ -364,6 +364,62 @@ if (result.errors.length > 0) {
 }
 ```
 
+## 🧪 Test Çalıştırma
+
+### Tüm Testleri Çalıştır
+
+```bash
+pnpm test
+```
+
+### Watch Modunda Test
+
+```bash
+pnpm test:watch
+```
+
+### Test Dosyaları
+
+```
+tests/
+├── analyzer.test.ts        # ReactivityAnalyzer & DependencyGraph testleri
+├── parser.test.ts          # Parser sınıfları testleri
+└── integration.test.ts     # Tam compilation pipeline testleri
+```
+
+### Test Kapsamı
+
+**Analyzer Tests (12 test):**
+- ✅ ReactiveVariable tanımlaması
+- ✅ Değişken referansları takip
+- ✅ Circular dependency algılama
+- ✅ Fonksiyon çağrılarının işlenmesi
+- ✅ Computed properties
+- ✅ DependencyGraph oluşturma
+- ✅ Topological sort
+- ✅ Etkilenen değişkenlerin tespiti
+- ✅ Döngü algılama
+
+**Parser Tests (26 test):**
+- ✅ TokenLexer - HTML tokenizasyonu
+- ✅ BlockParser - Script/Template/Style ayırımı
+- ✅ TemplateParser - Template AST oluşturma
+- ✅ StyleParser - CSS parsing ve scoping
+- ✅ ComponentParser - Tam bileşen parsing
+
+**Integration Tests (17 test):**
+- ✅ Basit component compilation
+- ✅ Loop yapıları
+- ✅ Eksik bloklar
+- ✅ Farklı formatlar (ESM, CJS)
+- ✅ Source maps
+- ✅ Circular dependency detection
+- ✅ SSR compilation
+- ✅ Event bindings
+- ✅ Imports/Exports
+- ✅ Scoped styles
+- ✅ Minification
+
 ## 📖 Detaylı Dokümantasyon
 
 Daha fazla bilgi için bkz: [../ARCHITECTURE.md](../ARCHITECTURE.md)
