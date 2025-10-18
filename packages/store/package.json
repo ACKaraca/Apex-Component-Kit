@@ -1,15 +1,12 @@
 {
-  "name": "@ack/kit",
-  "version": "0.3.0",
-  "description": "ACK Application Framework - Advanced routing, middleware, guards with dev server, routing, and build system",
+  "name": "@ack/store",
+  "version": "0.4.0",
+  "description": "ACK State Management - Reactive global state with actions, mutations, and persistence",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "ack": "./dist/cli.js"
-  },
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -22,15 +19,10 @@
     "dev": "tsc --watch",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:advanced-router": "vitest --run advanced-router.test.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@ack/compiler": "workspace:*",
-    "@ack/runtime": "workspace:*",
-    "@ack/vite-plugin": "workspace:*",
-    "vite": "^5.0.0",
-    "esbuild": "^0.19.11"
+    "@ack/runtime": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
@@ -39,12 +31,10 @@
   },
   "keywords": [
     "ack",
-    "framework",
-    "routing",
-    "middleware",
-    "guards",
-    "advanced",
-    "web",
-    "application"
+    "state-management",
+    "store",
+    "reactive",
+    "actions",
+    "mutations"
   ]
 }

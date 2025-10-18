@@ -20,9 +20,6 @@ importers:
 
   packages/cli:
     dependencies:
-      '@ack/compiler':
-        specifier: workspace:*
-        version: link:../compiler
       '@ack/kit':
         specifier: workspace:*
         version: link:../kit
@@ -83,7 +80,7 @@ importers:
         specifier: ^0.19.11
         version: 0.19.12
       vite:
-        specifier: ^5.0.5
+        specifier: ^5.0.0
         version: 5.4.20(@types/node@20.19.22)
     devDependencies:
       '@types/node':
@@ -111,11 +108,11 @@ importers:
         specifier: ^1.0.4
         version: 1.6.1(@types/node@20.19.22)(@vitest/ui@1.6.1)(jsdom@23.2.0)
 
-  packages/vite-plugin:
+  packages/store:
     dependencies:
-      '@ack/compiler':
+      '@ack/runtime':
         specifier: workspace:*
-        version: link:../compiler
+        version: link:../runtime
     devDependencies:
       '@types/node':
         specifier: ^20.10.5
@@ -123,9 +120,25 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
+      vitest:
+        specifier: ^1.0.4
+        version: 1.6.1(@types/node@20.19.22)(@vitest/ui@1.6.1)(jsdom@23.2.0)
+
+  packages/vite-plugin:
+    dependencies:
+      '@ack/compiler':
+        specifier: workspace:*
+        version: link:../compiler
       vite:
-        specifier: ^5.0.5
+        specifier: ^5.0.0
         version: 5.4.20(@types/node@20.19.22)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.5
+        version: 20.19.22
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
       vitest:
         specifier: ^1.0.4
         version: 1.6.1(@types/node@20.19.22)(@vitest/ui@1.6.1)(jsdom@23.2.0)
