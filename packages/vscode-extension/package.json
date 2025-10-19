@@ -1,0 +1,205 @@
+{
+  "name": "ack-vscode-extension",
+  "displayName": "ACK Framework",
+  "description": "VSCode extension for ACK Framework with syntax highlighting, auto-complete, and dev tools",
+  "version": "0.7.0",
+  "publisher": "ack-framework",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "ack",
+    "framework",
+    "javascript",
+    "typescript",
+    "web"
+  ],
+  "activationEvents": [
+    "onLanguage:ack",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "ack",
+        "aliases": [
+          "ACK",
+          "ack"
+        ],
+        "extensions": [
+          ".ack"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ack",
+        "scopeName": "source.ack",
+        "path": "./syntaxes/ack.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ack",
+        "path": "./snippets/ack.code-snippets"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.code-snippets"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/typescript.code-snippets"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ack.createComponent",
+        "title": "Create ACK Component",
+        "category": "ACK Framework"
+      },
+      {
+        "command": "ack.runDevServer",
+        "title": "Start ACK Dev Server",
+        "category": "ACK Framework"
+      },
+      {
+        "command": "ack.buildProject",
+        "title": "Build ACK Project",
+        "category": "ACK Framework"
+      },
+      {
+        "command": "ack.runTests",
+        "title": "Run ACK Tests",
+        "category": "ACK Framework"
+      },
+      {
+        "command": "ack.showDocumentation",
+        "title": "Show ACK Documentation",
+        "category": "ACK Framework"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .ack",
+          "command": "ack.createComponent",
+          "group": "ack@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "ack.createComponent",
+          "when": "resourceExtname == .ack"
+        },
+        {
+          "command": "ack.runDevServer",
+          "when": "workspaceHasPackageJson"
+        },
+        {
+          "command": "ack.buildProject",
+          "when": "workspaceHasPackageJson"
+        },
+        {
+          "command": "ack.runTests",
+          "when": "workspaceHasPackageJson"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ACK Framework",
+      "properties": {
+        "ack.devServer.port": {
+          "type": "number",
+          "default": 5173,
+          "description": "Port for ACK development server"
+        },
+        "ack.devServer.host": {
+          "type": "string",
+          "default": "localhost",
+          "description": "Host for ACK development server"
+        },
+        "ack.build.outputDir": {
+          "type": "string",
+          "default": "dist",
+          "description": "Output directory for ACK builds"
+        },
+        "ack.testing.watchMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable watch mode for ACK tests"
+        },
+        "ack.formatting.insertSpaces": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use spaces instead of tabs for ACK formatting"
+        },
+        "ack.formatting.tabSize": {
+          "type": "number",
+          "default": 2,
+          "description": "Tab size for ACK formatting"
+        }
+      }
+    },
+    "views": {
+      "ack-sidebar": [
+        {
+          "id": "ack.components",
+          "name": "Components",
+          "when": "ack:enabled"
+        },
+        {
+          "id": "ack.routes",
+          "name": "Routes",
+          "when": "ack:enabled"
+        },
+        {
+          "id": "ack.plugins",
+          "name": "Plugins",
+          "when": "ack:enabled"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ack-sidebar",
+          "title": "ACK Framework",
+          "icon": "$(rocket)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6",
+    "@vscode/test-electron": "^2.3.4"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}

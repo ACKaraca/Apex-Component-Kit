@@ -143,3 +143,41 @@ export {
   type WasmModuleInfo,
   type WasmInstanceConfig,
 } from './webAssembly';
+
+// Plugin System - Will be added when plugin-system package is properly built
+// export {
+//   PluginManager,
+//   createPlugin,
+//   createPluginManager,
+//   loggerPlugin,
+//   performancePlugin,
+//   analyticsPlugin,
+//   themePlugin,
+//   globalPluginRegistry,
+//   PluginUtils,
+//   type PluginConfig,
+//   type PluginHooks,
+//   type PluginCommand,
+//   type PluginComponent,
+//   type PluginMiddleware,
+//   type PluginEnhancer,
+//   type PluginInstance,
+//   type PluginRegistry,
+// } from '../plugin-system/src/index';
+
+// SSR (Server-Side Rendering)
+export {
+  SSRManager,
+  BaseSSRComponent,
+  SSRStreamingHelper,
+  SSRPerformanceMonitor,
+  SSRSecurityUtils,
+  createSSRManager,
+  createSSRContext,
+  createSSRMiddleware,
+  createSSRKoaMiddleware,
+  type SSRConfig,
+  type SSRContext,
+  type SSRResult,
+  type SSRComponent,
+} from './ssr';

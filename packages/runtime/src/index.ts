@@ -46,6 +46,12 @@ import {
   PortalManager,
   WebWorkerManager,
   WebAssemblyManager,
+  // SSR
+  SSRManager,
+  BaseSSRComponent,
+  SSRStreamingHelper,
+  SSRPerformanceMonitor,
+  SSRSecurityUtils,
   createProgressiveEnhancement,
   createErrorBoundary,
   createSuspenseManager,
@@ -54,6 +60,10 @@ import {
   createPortalManager,
   createWebWorkerManager,
   createWebAssemblyManager,
+  createSSRManager,
+  createSSRContext,
+  createSSRMiddleware,
+  createSSRKoaMiddleware,
   BrowserCapabilities,
   logEnhancementState,
   type ProgressiveFeature,
@@ -80,6 +90,10 @@ import {
   type WasmInstanceConfig,
   type WasmMemoryManager,
   type WasmPerformanceMonitor,
+  type SSRConfig,
+  type SSRContext,
+  type SSRResult,
+  type SSRComponent,
 } from './productionFeatures';
 
 export {
@@ -147,6 +161,20 @@ export {
   type WasmInstanceConfig,
   type WasmMemoryManager,
   type WasmPerformanceMonitor,
+  // SSR
+  SSRManager,
+  BaseSSRComponent,
+  SSRStreamingHelper,
+  SSRPerformanceMonitor,
+  SSRSecurityUtils,
+  createSSRManager,
+  createSSRContext,
+  createSSRMiddleware,
+  createSSRKoaMiddleware,
+  type SSRConfig,
+  type SSRContext,
+  type SSRResult,
+  type SSRComponent,
 };
 
 /**
