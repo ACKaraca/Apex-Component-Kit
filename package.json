@@ -1,6 +1,6 @@
 {
   "name": "ack-framework",
-  "version": "0.0.1",
+  "version": "0.6.0",
   "description": "Apex Component Kit - Next-generation JavaScript framework",
   "license": "MIT",
   "private": true,
@@ -11,11 +11,24 @@
     "dev": "pnpm -r --parallel run dev",
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
-    "lint": "pnpm -r run lint"
+    "test:watch": "pnpm -r run test:watch",
+    "lint": "pnpm -r run lint",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:debug": "playwright test --debug",
+    "e2e:headed": "playwright test --headed",
+    "e2e:chromium": "playwright test --project=chromium",
+    "e2e:firefox": "playwright test --project=firefox",
+    "e2e:webkit": "playwright test --project=webkit",
+    "e2e:report": "playwright show-report",
+    "benchmark": "tsx packages/cli/perf-benchmark.ts",
+    "benchmark:watch": "tsx --watch packages/cli/perf-benchmark.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@vitest/ui": "^1.0.4",
     "typescript": "^5.3.3",
     "vitest": "^1.0.4",
-    "@vitest/ui": "^1.0.4"
+    "tsx": "^4.7.0"
   }
 }
