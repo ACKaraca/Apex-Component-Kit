@@ -1,0 +1,20 @@
+{
+  "endpoints": [
+    {
+      "name": "EdgeAdapterDeploy",
+      "method": "GET",
+      "path": "/.well-known/ack/edge-config",
+      "inputSchema": "EdgeConfigRequest@v1",
+      "outputSchema": "EdgeConfig@v1",
+      "auth": "none"
+    },
+    {
+      "name": "TelemetryExporter",
+      "method": "POST",
+      "path": "/v1/traces",
+      "inputSchema": "OTLPTraces@v1",
+      "outputSchema": "AckOk@v1",
+      "auth": "optional"
+    }
+  ]
+}
