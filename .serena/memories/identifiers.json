@@ -1,0 +1,40 @@
+{
+  "modules": [
+    {
+      "name": "edge.adapter",
+      "exports": ["createEdgeAdapter"],
+      "variables": ["EDGE_TARGETS"],
+      "configKeys": ["ACK_EDGE_TARGET", "ACK_SSR_STREAMING", "ACK_ISLANDS_ENABLED"]
+    },
+    {
+      "name": "telemetry.core",
+      "exports": ["withSpan"],
+      "variables": ["tracer"],
+      "configKeys": ["OTLP_ENDPOINT", "OTEL_SERVICE_NAME"]
+    },
+    {
+      "name": "security.sandbox",
+      "exports": ["sanitizeHtml", "escapeHtml"],
+      "variables": ["SANDBOX_ALLOWLIST"],
+      "configKeys": ["ACK_SANDBOX_MODE"]
+    },
+    {
+      "name": "build.pluginBase",
+      "exports": ["AckPluginBase"],
+      "variables": [],
+      "configKeys": []
+    },
+    {
+      "name": "lsp.server",
+      "exports": ["startLspServer"],
+      "variables": ["capabilities"],
+      "configKeys": []
+    },
+    {
+      "name": "runtime.scheduler",
+      "exports": ["startTransition"],
+      "variables": ["PRIORITY_LANES"],
+      "configKeys": []
+    }
+  ]
+}

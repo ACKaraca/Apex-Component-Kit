@@ -1,0 +1,29 @@
+{
+  "schemas": [
+    {
+      "name": "EdgeConfigRequest@v1",
+      "fields": [
+        { "key": "target", "type": "string" }
+      ]
+    },
+    {
+      "name": "EdgeConfig@v1",
+      "fields": [
+        { "key": "streaming", "type": "boolean" },
+        { "key": "islands", "type": "boolean" }
+      ]
+    },
+    {
+      "name": "OTLPTraces@v1",
+      "fields": [
+        { "key": "resourceSpans", "type": "array" }
+      ]
+    },
+    {
+      "name": "AckOk@v1",
+      "fields": [
+        { "key": "ok", "type": "boolean" }
+      ]
+    }
+  ]
+}
