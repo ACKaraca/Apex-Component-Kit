@@ -26,10 +26,12 @@ coverage/
 .DS_Store
 
 # Cursor AI files (exclude .cursor directory and its contents)
-.cursor/
+.cursor/*
 .cursorignore
 .mds/
-
+.serena/memories/*.md
+.serena/*.md
+# Serena memories JSON files (keep only for internal tracking)
 # Environment variables
 .env
 .env.local
@@ -82,3 +84,4 @@ out/
 dist-ssr/
 site/
 .wrangler/
+
