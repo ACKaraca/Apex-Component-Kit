@@ -1,0 +1,41 @@
+{
+  "name": "@ack/graphql-playground",
+  "version": "0.11.0",
+  "description": "ACK Framework GraphQL Playground - Interactive query testing and exploration",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "echo 'No linting configured'",
+    "start": "node dist/server.js",
+    "dev:server": "ts-node src/server.ts"
+  },
+  "keywords": [
+    "ack",
+    "graphql",
+    "playground",
+    "testing",
+    "exploration"
+  ],
+  "author": "ACK Framework Team",
+  "license": "MIT",
+  "dependencies": {
+    "@ack/runtime": "workspace:*",
+    "@ack/api": "workspace:*",
+    "express": "^4.18.2",
+    "graphql": "^16.8.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4",
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/body-parser": "^1.19.2",
+    "ts-node": "^10.9.1"
+  }
+}

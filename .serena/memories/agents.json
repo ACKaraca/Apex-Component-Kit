@@ -1,0 +1,427 @@
+{
+  "agents": [
+    {
+      "id": "agent-api",
+      "name": "API Integration Agent",
+      "specialization": "api,http,graphql,data-fetching",
+      "modules": [
+        "packages/api/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T14:30:00Z",
+      "currentBranches": [
+        "feature/api-integration-v0.5.0"
+      ],
+      "completedTasks": ["#15", "#23", "#31"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 8,
+        "prsMerged": 7,
+        "avgCompletionTime": "3.5h",
+        "codeOwnership": "packages/api/* (100%)"
+      }
+    },
+    {
+      "id": "agent-loader",
+      "name": "Lazy Loading Agent",
+      "specialization": "lazy-loading,code-splitting,chunk-management",
+      "modules": [
+        "packages/loader/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T15:15:00Z",
+      "currentBranches": [
+        "feature/loader-v0.6.0"
+      ],
+      "completedTasks": ["#18", "#27", "#35"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 6,
+        "prsMerged": 6,
+        "avgCompletionTime": "4.2h",
+        "codeOwnership": "packages/loader/* (100%)"
+      }
+    },
+    {
+      "id": "agent-compiler",
+      "name": "Compiler Agent",
+      "specialization": "compilation,parsing,codegen",
+      "modules": [
+        "packages/compiler/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T16:00:00Z",
+      "currentBranches": [
+        "feature/compiler-improvements"
+      ],
+      "completedTasks": ["#12", "#20", "#28"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 12,
+        "prsMerged": 10,
+        "avgCompletionTime": "5.1h",
+        "codeOwnership": "packages/compiler/* (100%)"
+      }
+    },
+    {
+      "id": "agent-cli",
+      "name": "CLI Agent",
+      "specialization": "cli,scaffolding,project-setup",
+      "modules": [
+        "packages/cli/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T16:30:00Z",
+      "currentBranches": [
+        "feature/cli-templates"
+      ],
+      "completedTasks": ["#10", "#16", "#25"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 5,
+        "prsMerged": 5,
+        "avgCompletionTime": "2.8h",
+        "codeOwnership": "packages/cli/* (100%)"
+      }
+    },
+    {
+      "id": "agent-runtime",
+      "name": "Runtime Agent",
+      "specialization": "reactivity,mounting,ssr,effects",
+      "modules": [
+        "packages/runtime/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T17:00:00Z",
+      "currentBranches": [
+        "feature/runtime-enhancements"
+      ],
+      "completedTasks": ["#8", "#14", "#22"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 15,
+        "prsMerged": 13,
+        "avgCompletionTime": "6.2h",
+        "codeOwnership": "packages/runtime/* (100%)"
+      }
+    },
+    {
+      "id": "agent-kit",
+      "name": "Application Framework Agent",
+      "specialization": "routing,dev-server,build,middleware",
+      "modules": [
+        "packages/kit/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T17:30:00Z",
+      "currentBranches": [
+        "feature/kit-routing-v0.3.0"
+      ],
+      "completedTasks": ["#11", "#19", "#26"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 10,
+        "prsMerged": 9,
+        "avgCompletionTime": "4.8h",
+        "codeOwnership": "packages/kit/* (100%)"
+      }
+    },
+    {
+      "id": "agent-store",
+      "name": "State Management Agent",
+      "specialization": "state-management,store,persistence",
+      "modules": [
+        "packages/store/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T18:00:00Z",
+      "currentBranches": [
+        "feature/store-v0.4.0"
+      ],
+      "completedTasks": ["#13", "#21", "#29"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 7,
+        "prsMerged": 7,
+        "avgCompletionTime": "3.9h",
+        "codeOwnership": "packages/store/* (100%)"
+      }
+    },
+    {
+      "id": "agent-vite",
+      "name": "Vite Plugin Agent",
+      "specialization": "vite,plugin,build-tools",
+      "modules": [
+        "packages/vite-plugin/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T18:30:00Z",
+      "currentBranches": [
+        "feature/vite-plugin-improvements"
+      ],
+      "completedTasks": ["#17", "#24", "#32"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 4,
+        "prsMerged": 4,
+        "avgCompletionTime": "2.1h",
+        "codeOwnership": "packages/vite-plugin/* (100%)"
+      }
+    },
+    {
+      "id": "agent-api-docs",
+      "name": "API Documentation Agent",
+      "specialization": "documentation,openapi,swagger",
+      "modules": [
+        "packages/api-docs/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T19:00:00Z",
+      "currentBranches": [
+        "feature/api-docs-v0.11.0"
+      ],
+      "completedTasks": ["#30", "#33", "#36"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 9,
+        "prsMerged": 8,
+        "avgCompletionTime": "3.3h",
+        "codeOwnership": "packages/api-docs/* (100%)"
+      }
+    },
+    {
+      "id": "agent-cicd",
+      "name": "CI/CD Agent",
+      "specialization": "cicd,github-actions,deployment,monitoring",
+      "modules": [
+        "packages/cicd/src/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T19:30:00Z",
+      "currentBranches": [
+        "feature/cicd-v0.10.0"
+      ],
+      "completedTasks": ["#9", "#18", "#27"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 11,
+        "prsMerged": 10,
+        "avgCompletionTime": "4.5h",
+        "codeOwnership": "packages/cicd/* (100%)"
+      }
+    },
+    {
+      "id": "agent-edge",
+      "name": "Edge Computing Agent",
+      "specialization": "edge-computing,ssr,streaming",
+      "modules": [
+        "packages/edge/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T10:00:00Z",
+      "currentBranches": [],
+      "completedTasks": ["#1", "#5", "#14"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 6,
+        "prsMerged": 5,
+        "avgCompletionTime": "7.2h",
+        "codeOwnership": "packages/edge/* (100%)"
+      }
+    },
+    {
+      "id": "agent-telemetry",
+      "name": "Telemetry Agent",
+      "specialization": "monitoring,tracing,observability",
+      "modules": [
+        "packages/telemetry/*"
+      ],
+      "active": true,
+      "lastActive": "2025-10-23T10:30:00Z",
+      "currentBranches": [],
+      "completedTasks": ["#2", "#7", "#16"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 5,
+        "prsMerged": 5,
+        "avgCompletionTime": "4.8h",
+        "codeOwnership": "packages/telemetry/* (100%)"
+      }
+    },
+    {
+      "id": "agent-wasm",
+      "name": "WebAssembly Agent",
+      "specialization": "wasm,performance,computation",
+      "modules": [
+        "packages/wasm/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#56"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-css",
+      "name": "CSS Agent",
+      "specialization": "css,styles,theme,responsive",
+      "modules": [
+        "packages/css/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#57"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-edge",
+      "name": "Edge Computing Agent",
+      "specialization": "edge,serverless,ssr,streaming",
+      "modules": [
+        "packages/edge/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#58"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-security",
+      "name": "Security Agent",
+      "specialization": "security,sandboxing,xss,csp",
+      "modules": [
+        "packages/security/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#60"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-build",
+      "name": "Build Tools Agent",
+      "specialization": "bundler,build,optimization,plugins",
+      "modules": [
+        "packages/build/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#61"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-lsp",
+      "name": "Language Server Agent",
+      "specialization": "lsp,language-server,ide,diagnostics",
+      "modules": [
+        "packages/lsp/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#62"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-scheduler",
+      "name": "Scheduler Agent",
+      "specialization": "scheduler,transitions,performance,ui",
+      "modules": [
+        "packages/scheduler/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#63"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-mf",
+      "name": "Microfrontends Agent",
+      "specialization": "microfrontends,federation,modules",
+      "modules": [
+        "packages/microfrontends/*"
+      ],
+      "active": false,
+      "lastActive": "2025-10-23T20:00:00Z",
+      "currentBranches": [],
+      "completedTasks": [],
+      "blockedTasks": ["#64"],
+      "metrics": {
+        "prsCreated": 0,
+        "prsMerged": 0,
+        "avgCompletionTime": "0h",
+        "codeOwnership": "0%"
+      }
+    },
+    {
+      "id": "agent-system",
+      "name": "System Agent",
+      "specialization": "roadmap,planning,coordination,documentation",
+      "modules": [
+        ".cursor/docs/*",
+        "Todo.md",
+        "CHANGELOG.md"
+      ],
+      "active": true,
+      "lastActive": "2025-10-24T09:00:00Z",
+      "currentBranches": [
+        "feature/phase13-planning"
+      ],
+      "completedTasks": ["#51-planning", "#52-planning"],
+      "blockedTasks": [],
+      "metrics": {
+        "prsCreated": 2,
+        "prsMerged": 2,
+        "avgCompletionTime": "1.5h",
+        "codeOwnership": "docs/* (100%)"
+      }
+    }
+  ]
+}
