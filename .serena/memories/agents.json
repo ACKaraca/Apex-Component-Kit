@@ -45,21 +45,21 @@
     {
       "id": "agent-compiler",
       "name": "Compiler Agent",
-      "specialization": "compilation,parsing,codegen",
+      "specialization": "compilation,parsing,codegen,templates",
       "modules": [
         "packages/compiler/src/*"
       ],
       "active": true,
-      "lastActive": "2025-10-23T16:00:00Z",
+      "lastActive": "2025-10-24T15:30:00Z",
       "currentBranches": [
-        "feature/compiler-improvements"
+        "feature/template-advanced-#51"
       ],
-      "completedTasks": ["#12", "#20", "#28"],
+      "completedTasks": ["#12", "#20", "#28", "#51"],
       "blockedTasks": [],
       "metrics": {
-        "prsCreated": 12,
-        "prsMerged": 10,
-        "avgCompletionTime": "5.1h",
+        "prsCreated": 13,
+        "prsMerged": 11,
+        "avgCompletionTime": "5.2h",
         "codeOwnership": "packages/compiler/* (100%)"
       }
     },

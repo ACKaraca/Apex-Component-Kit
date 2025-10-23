@@ -111,13 +111,20 @@
         "HydrationCodeGen",
         "HydrationData"
       ],
-      "variables": ["COMPILER_CACHE"],
-      "configKeys": ["COMPILER_FORMAT", "COMPILER_MINIFY", "COMPILER_SSR"],
+      "variables": ["COMPILER_CACHE", "TEMPLATE_AST_CACHE"],
+      "configKeys": ["COMPILER_FORMAT", "COMPILER_MINIFY", "COMPILER_SSR", "TEMPLATE_CONTROL_FLOW"],
       "owner": "agent-compiler",
-      "lastModified": "2025-10-23T16:00:00Z",
-      "version": "0.0.1",
+      "lastModified": "2025-10-24T15:30:00Z",
+      "version": "0.1.0",
       "breaking": false,
-      "dependencies": []
+      "dependencies": [],
+      "features": [
+        "Control flow blocks: {#if}, {#each}, {#await}",
+        "Slot system with named and scoped slots",
+        "Real DOM generation from template AST",
+        "Enhanced attribute parsing and binding",
+        "Scoped variable tracking"
+      ]
     },
     {
       "name": "cli.core",

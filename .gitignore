@@ -13,6 +13,7 @@ tsconfig.tsbuildinfo
 # Test coverage
 coverage/
 .nyc_output/
+..bfg-report/
 
 # IDE and Editor files
 .vscode/

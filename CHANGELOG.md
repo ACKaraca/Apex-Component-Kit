@@ -8,8 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **[TEMPLATE]** Advanced Template System completed (#51) @agent-compiler
+  - ✅ Control flow blocks: `{#if}`, `{#each}`, `{#await}` with full AST support
+  - ✅ Slot system with named and scoped slots implementation
+  - ✅ Real DOM generation from template AST instead of placeholder snippets
+  - ✅ Enhanced attribute parsing and scoped variable tracking
+  - ✅ Shared template renderer translating AST back to markup
+  - ✅ ESM/CJS generators updated to embed rendered templates
+  - ✅ Parser and integration tests for all control flow structures
+
+### Added
 - **[ROADMAP]** Phase 13 Development Roadmap with 14 new features @agent-system
-  - Advanced Template System with control flow blocks ({#if}, {#each}, {#await})
+  - ~~Advanced Template System with control flow blocks ({#if}, {#each}, {#await})~~ ✅ COMPLETED
   - Intelligent Hot Module Replacement with component-level updates
   - TypeScript Integration with automatic .d.ts generation
   - Reactive DOM Integration for efficient updates
