@@ -1,0 +1,116 @@
+{
+  "dependencies": [
+    {
+      "from": "api.http",
+      "to": "store.core",
+      "type": "runtime",
+      "version": "^0.4.0",
+      "breaking": false,
+      "notes": "API client uses store for caching and state management"
+    },
+    {
+      "from": "loader.lazy",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Lazy loader depends on runtime for reactivity and effects"
+    },
+    {
+      "from": "compiler.core",
+      "to": "runtime.core",
+      "type": "build",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Compiler generates code that depends on runtime"
+    },
+    {
+      "from": "cli.core",
+      "to": "kit.core",
+      "type": "runtime",
+      "version": "^0.3.0",
+      "breaking": false,
+      "notes": "CLI uses kit for project scaffolding and build tools"
+    },
+    {
+      "from": "kit.core",
+      "to": "compiler.core",
+      "type": "build",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Kit uses compiler for component compilation"
+    },
+    {
+      "from": "kit.core",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Kit runtime depends on core runtime for reactivity"
+    },
+    {
+      "from": "kit.core",
+      "to": "vite-plugin.core",
+      "type": "build",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Kit integrates with vite plugin for development"
+    },
+    {
+      "from": "store.core",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Store uses runtime reactivity system"
+    },
+    {
+      "from": "vite-plugin.core",
+      "to": "compiler.core",
+      "type": "build",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "Vite plugin uses compiler for .ack file processing"
+    },
+    {
+      "from": "api-docs.core",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "API docs uses runtime for SSR and component mounting"
+    },
+    {
+      "from": "api-docs.core",
+      "to": "api.http",
+      "type": "runtime",
+      "version": "^0.5.0",
+      "breaking": false,
+      "notes": "API docs integrates with HTTP client for endpoint analysis"
+    },
+    {
+      "from": "cicd.core",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "CI/CD system uses runtime for performance monitoring"
+    },
+    {
+      "from": "cicd.core",
+      "to": "kit.core",
+      "type": "build",
+      "version": "^0.3.0",
+      "breaking": false,
+      "notes": "CI/CD uses kit for build and deployment processes"
+    },
+    {
+      "from": "cicd.core",
+      "to": "compiler.core",
+      "type": "build",
+      "version": "^0.0.1",
+      "breaking": false,
+      "notes": "CI/CD uses compiler for automated builds"
+    }
+  ]
+}

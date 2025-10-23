@@ -27,6 +27,7 @@ coverage/
 # Cursor AI files (exclude .cursor directory and its contents)
 .cursor/
 .cursorignore
+.mds/
 
 # Environment variables
 .env

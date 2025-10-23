@@ -1,0 +1,35 @@
+{
+  "name": "@ack/i18n",
+  "version": "0.11.0",
+  "description": "ACK Framework Internationalization - Multi-language support, RTL, translation management",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "echo 'No linting configured'",
+    "extract": "node dist/scripts/extract-messages.js",
+    "compile": "node dist/scripts/compile-translations.js"
+  },
+  "keywords": [
+    "ack",
+    "i18n",
+    "internationalization",
+    "localization",
+    "rtl",
+    "translation"
+  ],
+  "author": "ACK Framework Team",
+  "license": "MIT",
+  "dependencies": {
+    "@ack/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  }
+}
+
+

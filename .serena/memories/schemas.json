@@ -4,26 +4,433 @@
       "name": "EdgeConfigRequest@v1",
       "fields": [
         { "key": "target", "type": "string" }
-      ]
+      ],
+      "type": "object",
+      "owner": "agent-edge",
+      "lastModified": "2025-10-23T10:00:00Z",
+      "version": "v1",
+      "breaking": false
     },
     {
       "name": "EdgeConfig@v1",
       "fields": [
         { "key": "streaming", "type": "boolean" },
         { "key": "islands", "type": "boolean" }
-      ]
+      ],
+      "type": "object",
+      "owner": "agent-edge",
+      "lastModified": "2025-10-23T10:00:00Z",
+      "version": "v1",
+      "breaking": false
     },
     {
       "name": "OTLPTraces@v1",
       "fields": [
         { "key": "resourceSpans", "type": "array" }
-      ]
+      ],
+      "type": "object",
+      "owner": "agent-telemetry",
+      "lastModified": "2025-10-23T10:30:00Z",
+      "version": "v1",
+      "breaking": false
     },
     {
       "name": "AckOk@v1",
       "fields": [
         { "key": "ok", "type": "boolean" }
-      ]
+      ],
+      "type": "object",
+      "owner": "agent-telemetry",
+      "lastModified": "2025-10-23T10:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "RequestConfig@v1",
+      "fields": [
+        { "key": "method", "type": "string", "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"] },
+        { "key": "headers", "type": "object" },
+        { "key": "body", "type": "any" },
+        { "key": "timeout", "type": "number" },
+        { "key": "retry", "type": "number" },
+        { "key": "cache", "type": "boolean" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-23T14:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ResponseData@v1",
+      "fields": [
+        { "key": "data", "type": "any", "required": true },
+        { "key": "status", "type": "number", "required": true },
+        { "key": "statusText", "type": "string", "required": true },
+        { "key": "headers", "type": "object", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-23T14:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "GraphQLQuery@v1",
+      "fields": [
+        { "key": "query", "type": "string", "required": true },
+        { "key": "variables", "type": "object" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-23T14:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "GraphQLResponse@v1",
+      "fields": [
+        { "key": "data", "type": "any" },
+        { "key": "errors", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-23T14:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CompileRequest@v1",
+      "fields": [
+        { "key": "source", "type": "string", "required": true },
+        { "key": "filePath", "type": "string" },
+        { "key": "format", "type": "string", "enum": ["esm", "cjs", "both"] },
+        { "key": "minify", "type": "boolean" },
+        { "key": "sourceMap", "type": "boolean" },
+        { "key": "ssr", "type": "boolean" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-23T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CompileResult@v1",
+      "fields": [
+        { "key": "code", "type": "string", "required": true },
+        { "key": "errors", "type": "array", "required": true },
+        { "key": "warnings", "type": "array", "required": true },
+        { "key": "map", "type": "any" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-23T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "EmptyRequest@v1",
+      "fields": [],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "DevServerStatus@v1",
+      "fields": [
+        { "key": "status", "type": "string", "enum": ["running", "stopped", "error"], "required": true },
+        { "key": "port", "type": "number" },
+        { "key": "uptime", "type": "number" },
+        { "key": "memory", "type": "object" }
+      ],
+      "type": "object",
+      "owner": "agent-kit",
+      "lastModified": "2025-10-23T17:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "RouteDiscoveryRequest@v1",
+      "fields": [
+        { "key": "pattern", "type": "string" },
+        { "key": "include", "type": "array" },
+        { "key": "exclude", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-kit",
+      "lastModified": "2025-10-23T17:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "RouteDiscoveryResponse@v1",
+      "fields": [
+        { "key": "routes", "type": "array", "required": true },
+        { "key": "total", "type": "number", "required": true },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-kit",
+      "lastModified": "2025-10-23T17:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "StoreStateRequest@v1",
+      "fields": [
+        { "key": "storeName", "type": "string" },
+        { "key": "keys", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-store",
+      "lastModified": "2025-10-23T18:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "StoreStateResponse@v1",
+      "fields": [
+        { "key": "state", "type": "object", "required": true },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-store",
+      "lastModified": "2025-10-23T18:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "StoreMutationRequest@v1",
+      "fields": [
+        { "key": "storeName", "type": "string", "required": true },
+        { "key": "mutation", "type": "string", "required": true },
+        { "key": "payload", "type": "any" }
+      ],
+      "type": "object",
+      "owner": "agent-store",
+      "lastModified": "2025-10-23T18:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "StoreMutationResponse@v1",
+      "fields": [
+        { "key": "success", "type": "boolean", "required": true },
+        { "key": "newState", "type": "object" },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-store",
+      "lastModified": "2025-10-23T18:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "APIDocumentationResponse@v1",
+      "fields": [
+        { "key": "html", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-api-docs",
+      "lastModified": "2025-10-23T19:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "OpenAPISpecResponse@v1",
+      "fields": [
+        { "key": "spec", "type": "object", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-api-docs",
+      "lastModified": "2025-10-23T19:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "OpenAPISpecYAMLResponse@v1",
+      "fields": [
+        { "key": "spec", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-api-docs",
+      "lastModified": "2025-10-23T19:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CICDWebhookRequest@v1",
+      "fields": [
+        { "key": "event", "type": "string", "required": true },
+        { "key": "repository", "type": "object", "required": true },
+        { "key": "ref", "type": "string" },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CICDWebhookResponse@v1",
+      "fields": [
+        { "key": "status", "type": "string", "enum": ["received", "queued", "processing"], "required": true },
+        { "key": "pipelineId", "type": "string" },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CICDStatusRequest@v1",
+      "fields": [
+        { "key": "pipelineId", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "CICDStatusResponse@v1",
+      "fields": [
+        { "key": "status", "type": "string", "enum": ["running", "success", "failed", "cancelled"], "required": true },
+        { "key": "progress", "type": "number" },
+        { "key": "logs", "type": "array" },
+        { "key": "startedAt", "type": "string" },
+        { "key": "finishedAt", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "PerformanceMetricsRequest@v1",
+      "fields": [
+        { "key": "metric", "type": "string" },
+        { "key": "from", "type": "string" },
+        { "key": "to", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "PerformanceMetricsResponse@v1",
+      "fields": [
+        { "key": "metrics", "type": "object", "required": true },
+        { "key": "stats", "type": "object", "required": true },
+        { "key": "timestamp", "type": "string", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-cicd",
+      "lastModified": "2025-10-23T19:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "SSRRenderRequest@v1",
+      "fields": [
+        { "key": "component", "type": "string", "required": true },
+        { "key": "props", "type": "object" },
+        { "key": "context", "type": "object" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "SSRRenderResponse@v1",
+      "fields": [
+        { "key": "html", "type": "string", "required": true },
+        { "key": "css", "type": "string" },
+        { "key": "state", "type": "object" },
+        { "key": "renderTime", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ComponentMountRequest@v1",
+      "fields": [
+        { "key": "component", "type": "string", "required": true },
+        { "key": "selector", "type": "string", "required": true },
+        { "key": "props", "type": "object" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ComponentMountResponse@v1",
+      "fields": [
+        { "key": "success", "type": "boolean", "required": true },
+        { "key": "instanceId", "type": "string" },
+        { "key": "element", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "HealthCheckResponse@v1",
+      "fields": [
+        { "key": "status", "type": "string", "enum": ["healthy", "unhealthy"], "required": true },
+        { "key": "timestamp", "type": "string", "required": true },
+        { "key": "services", "type": "object" },
+        { "key": "uptime", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-23T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ChunkLoadRequest@v1",
+      "fields": [
+        { "key": "chunkId", "type": "string", "required": true },
+        { "key": "priority", "type": "string", "enum": ["high", "medium", "low"] }
+      ],
+      "type": "object",
+      "owner": "agent-loader",
+      "lastModified": "2025-10-23T15:15:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ChunkLoadResponse@v1",
+      "fields": [
+        { "key": "chunk", "type": "any", "required": true },
+        { "key": "loadTime", "type": "number", "required": true },
+        { "key": "cached", "type": "boolean", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-loader",
+      "lastModified": "2025-10-23T15:15:00Z",
+      "version": "v1",
+      "breaking": false
     }
   ]
 }
