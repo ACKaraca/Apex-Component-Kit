@@ -431,6 +431,347 @@
       "lastModified": "2025-10-23T15:15:00Z",
       "version": "v1",
       "breaking": false
+    },
+    {
+      "name": "DOMCodeGenRequest@v1",
+      "fields": [
+        { "key": "ast", "type": "object", "required": true },
+        { "key": "format", "type": "string", "enum": ["esm", "cjs"], "required": true },
+        { "key": "ssr", "type": "boolean" },
+        { "key": "hydration", "type": "boolean" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "DOMCodeGenResponse@v1",
+      "fields": [
+        { "key": "code", "type": "string", "required": true },
+        { "key": "updateFunctions", "type": "array", "required": true },
+        { "key": "hydrationCode", "type": "string" },
+        { "key": "renderTime", "type": "number", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "DirectiveAnalysisRequest@v1",
+      "fields": [
+        { "key": "template", "type": "string", "required": true },
+        { "key": "directive", "type": "string", "enum": ["if", "each", "await", "slot", "bind"] }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "DirectiveAnalysisResponse@v1",
+      "fields": [
+        { "key": "directives", "type": "array", "required": true },
+        { "key": "scopedVariables", "type": "array" },
+        { "key": "eventModifiers", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScriptAnalysisRequest@v1",
+      "fields": [
+        { "key": "script", "type": "string", "required": true },
+        { "key": "language", "type": "string", "enum": ["javascript", "typescript"], "default": "javascript" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScriptAnalysisResponse@v1",
+      "fields": [
+        { "key": "variables", "type": "array", "required": true },
+        { "key": "exports", "type": "array", "required": true },
+        { "key": "functions", "type": "array", "required": true },
+        { "key": "reactiveDeclarations", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "SignalCreateRequest@v1",
+      "fields": [
+        { "key": "initialValue", "type": "any", "required": true },
+        { "key": "equals", "type": "string" },
+        { "key": "id", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "SignalResponse@v1",
+      "fields": [
+        { "key": "signalId", "type": "string", "required": true },
+        { "key": "value", "type": "any", "required": true },
+        { "key": "subscribers", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "EffectCreateRequest@v1",
+      "fields": [
+        { "key": "fn", "type": "string", "required": true },
+        { "key": "dependencies", "type": "array" },
+        { "key": "id", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "EffectResponse@v1",
+      "fields": [
+        { "key": "effectId", "type": "string", "required": true },
+        { "key": "status", "type": "string", "enum": ["pending", "running", "completed"] },
+        { "key": "cleanup", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "HookStateRequest@v1",
+      "fields": [
+        { "key": "hookType", "type": "string", "enum": ["useState", "useEffect", "useMemo", "useCallback"], "required": true },
+        { "key": "args", "type": "any", "required": true }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "HookStateResponse@v1",
+      "fields": [
+        { "key": "value", "type": "any", "required": true },
+        { "key": "setState", "type": "string" },
+        { "key": "hookIndex", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ReconcileRequest@v1",
+      "fields": [
+        { "key": "oldVNode", "type": "object" },
+        { "key": "newVNode", "type": "object", "required": true },
+        { "key": "parentDom", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ReconcileResponse@v1",
+      "fields": [
+        { "key": "patched", "type": "boolean", "required": true },
+        { "key": "patches", "type": "array" },
+        { "key": "time", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScheduleTaskRequest@v1",
+      "fields": [
+        { "key": "fn", "type": "string", "required": true },
+        { "key": "priority", "type": "string", "enum": ["immediate", "high", "normal", "low", "idle"], "default": "normal" },
+        { "key": "timeout", "type": "number" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScheduleTaskResponse@v1",
+      "fields": [
+        { "key": "taskId", "type": "number", "required": true },
+        { "key": "scheduled", "type": "boolean", "required": true },
+        { "key": "priority", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScaffoldRequest@v1",
+      "fields": [
+        { "key": "projectName", "type": "string", "required": true },
+        { "key": "typescript", "type": "boolean", "default": true },
+        { "key": "framework", "type": "string", "enum": ["react", "vue", "svelte", "solid"], "default": "vue" },
+        { "key": "features", "type": "array" },
+        { "key": "packageManager", "type": "string", "enum": ["npm", "yarn", "pnpm"], "default": "pnpm" }
+      ],
+      "type": "object",
+      "owner": "agent-cli",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "ScaffoldResponse@v1",
+      "fields": [
+        { "key": "success", "type": "boolean", "required": true },
+        { "key": "projectPath", "type": "string" },
+        { "key": "nextSteps", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-cli",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "InspectorResponse@v1",
+      "fields": [
+        { "key": "componentTree", "type": "object" },
+        { "key": "selectedComponent", "type": "object" },
+        { "key": "props", "type": "object" },
+        { "key": "state", "type": "object" },
+        { "key": "routes", "type": "array" }
+      ],
+      "type": "object",
+      "owner": "agent-vite",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "OpenAPIGenerateRequest@v1",
+      "fields": [
+        { "key": "spec", "type": "object", "required": true },
+        { "key": "language", "type": "string", "enum": ["typescript", "go", "java", "rust"], "default": "typescript" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "OpenAPIGenerateResponse@v1",
+      "fields": [
+        { "key": "types", "type": "string", "required": true },
+        { "key": "client", "type": "string" },
+        { "key": "validators", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "GraphQLSchemaRequest@v1",
+      "fields": [
+        { "key": "schema", "type": "string", "required": true },
+        { "key": "language", "type": "string", "enum": ["typescript", "go", "java", "rust"], "default": "typescript" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "GraphQLSchemaResponse@v1",
+      "fields": [
+        { "key": "types", "type": "string", "required": true },
+        { "key": "hooks", "type": "string" },
+        { "key": "validators", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-api",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "RouteLoaderRequest@v1",
+      "fields": [
+        { "key": "route", "type": "string", "required": true },
+        { "key": "params", "type": "object" },
+        { "key": "search", "type": "object" }
+      ],
+      "type": "object",
+      "owner": "agent-kit",
+      "lastModified": "2025-10-24T17:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "RouteLoaderResponse@v1",
+      "fields": [
+        { "key": "data", "type": "object", "required": true },
+        { "key": "loadTime", "type": "number" },
+        { "key": "error", "type": "string" }
+      ],
+      "type": "object",
+      "owner": "agent-kit",
+      "lastModified": "2025-10-24T17:30:00Z",
+      "version": "v1",
+      "breaking": false
+    },
+    {
+      "name": "DevToolsResponse@v1",
+      "fields": [
+        { "key": "history", "type": "array", "required": true },
+        { "key": "currentState", "type": "object" },
+        { "key": "actions", "type": "array" },
+        { "key": "isTimeTravel", "type": "boolean" }
+      ],
+      "type": "object",
+      "owner": "agent-store",
+      "lastModified": "2025-10-24T17:30:00Z",
+      "version": "v1",
+      "breaking": false
     }
   ]
 }

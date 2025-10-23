@@ -111,6 +111,118 @@
       "version": "^0.0.1",
       "breaking": false,
       "notes": "CI/CD uses compiler for automated builds"
+    },
+    {
+      "from": "compiler.dom-codegen",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "DOM codegen generates code that depends on runtime"
+    },
+    {
+      "from": "compiler.script-analysis",
+      "to": "babel/parser",
+      "type": "build",
+      "version": "^7.23.0",
+      "breaking": false,
+      "notes": "Script analysis uses Babel parser for AST analysis"
+    },
+    {
+      "from": "runtime.hooks",
+      "to": "runtime.signals",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "Hooks API built on top of signal reactivity"
+    },
+    {
+      "from": "runtime.patching",
+      "to": "runtime.signals",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "DOM patching integrates with signal-based reactivity"
+    },
+    {
+      "from": "runtime.scheduler",
+      "to": "runtime.signals",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "Scheduler orchestrates signal-based effects"
+    },
+    {
+      "from": "cli.interactive",
+      "to": "kit.core",
+      "type": "runtime",
+      "version": "^0.3.0",
+      "breaking": false,
+      "notes": "Interactive CLI uses kit for project framework setup"
+    },
+    {
+      "from": "cli.interactive",
+      "to": "compiler.core",
+      "type": "build",
+      "version": "^0.2.0",
+      "breaking": false,
+      "notes": "CLI uses compiler for template in projects"
+    },
+    {
+      "from": "vite-plugin.toolchain",
+      "to": "compiler.core",
+      "type": "build",
+      "version": "^0.2.0",
+      "breaking": false,
+      "notes": "Vite toolchain analyzes compiler output for inspector"
+    },
+    {
+      "from": "vite-plugin.toolchain",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "Dev tools integrates with runtime for inspection"
+    },
+    {
+      "from": "api.schema",
+      "to": "zod",
+      "type": "runtime",
+      "version": "^3.22.0",
+      "breaking": false,
+      "notes": "Schema API uses Zod for validation"
+    },
+    {
+      "from": "kit.loaders",
+      "to": "runtime.core",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "Route loaders depend on runtime for component rendering"
+    },
+    {
+      "from": "kit.loaders",
+      "to": "loader.lazy",
+      "type": "runtime",
+      "version": "^0.6.0",
+      "breaking": false,
+      "notes": "Route loaders coordinate with lazy loader for code splitting"
+    },
+    {
+      "from": "store.timeline",
+      "to": "runtime.signals",
+      "type": "runtime",
+      "version": "^0.1.0",
+      "breaking": false,
+      "notes": "Timeline store builds on signal reactivity"
+    },
+    {
+      "from": "store.timeline",
+      "to": "redux-devtools",
+      "type": "runtime",
+      "version": "^3.1.0",
+      "breaking": false,
+      "notes": "Store integrates with Redux DevTools protocol"
     }
   ]
 }

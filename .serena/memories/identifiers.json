@@ -309,6 +309,353 @@
       "version": "0.10.0",
       "breaking": false,
       "dependencies": ["@ack/runtime", "@ack/kit", "@ack/compiler"]
+    },
+    {
+      "name": "compiler.dom-codegen",
+      "path": "packages/compiler/src/codegen/dom-generation.ts",
+      "exports": [
+        "generateHTMLFromTemplate",
+        "generateDOMUpdateFunctions",
+        "generateSSRString",
+        "generateHydrationCode",
+        "DOMCodeGenerator",
+        "createDOMCodeGenerator"
+      ],
+      "variables": ["DOM_CACHE", "HYDRATION_CACHE"],
+      "configKeys": ["DOM_CODEGEN_FORMAT", "DOM_CODEGEN_MINIFY"],
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "0.2.0",
+      "breaking": false,
+      "dependencies": ["@ack/runtime"],
+      "features": [
+        "AST traversal and HTML generation",
+        "Event handler binding code generation",
+        "Incremental DOM update functions",
+        "SSR hydration support"
+      ]
+    },
+    {
+      "name": "compiler.template-directives",
+      "path": "packages/compiler/src/parser/directives.ts",
+      "exports": [
+        "parseDirectives",
+        "parseIfBlock",
+        "parseEachBlock",
+        "parseAwaitBlock",
+        "parseSlot",
+        "parseEventModifier",
+        "parseBindDirective",
+        "DirectiveParser",
+        "createDirectiveParser"
+      ],
+      "variables": ["DIRECTIVE_CACHE"],
+      "configKeys": ["TEMPLATE_DIRECTIVES_ENABLED"],
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "0.2.0",
+      "breaking": false,
+      "dependencies": [],
+      "features": [
+        "If/each/await directive parsing",
+        "Scoped variable tracking in loops",
+        "Nested directive support",
+        "Event modifier handling (@click.prevent.stop)",
+        "Two-way binding (bind:value)",
+        "Slot system with scoped slots"
+      ]
+    },
+    {
+      "name": "compiler.script-analysis",
+      "path": "packages/compiler/src/analyzer/script-ast.ts",
+      "exports": [
+        "analyzeScript",
+        "extractVariables",
+        "extractExports",
+        "extractFunctions",
+        "detectReactiveDeclarations",
+        "ScriptAnalyzer",
+        "createScriptAnalyzer"
+      ],
+      "variables": ["AST_CACHE"],
+      "configKeys": ["BABEL_PARSER_PLUGINS"],
+      "owner": "agent-compiler",
+      "lastModified": "2025-10-24T16:00:00Z",
+      "version": "0.2.0",
+      "breaking": false,
+      "dependencies": ["@babel/parser", "@babel/traverse"],
+      "features": [
+        "Babel/TypeScript AST parsing",
+        "Variable declaration analysis (const/let/var)",
+        "Destructuring pattern recognition",
+        "Export statement handling",
+        "Function scope detection",
+        "Svelte $: reactive statement detection",
+        "Vue <script setup> pattern detection"
+      ]
+    },
+    {
+      "name": "runtime.signals",
+      "path": "packages/runtime/src/reactivity/signals.ts",
+      "exports": [
+        "createSignal",
+        "createMemo",
+        "createEffect",
+        "batch",
+        "Signal",
+        "Memo",
+        "Effect",
+        "createSignalBatch"
+      ],
+      "variables": ["ACTIVE_EFFECT", "EFFECT_STACK", "SIGNAL_SUBSCRIBERS"],
+      "configKeys": ["SIGNAL_EQUALITY_CHECK"],
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": [],
+      "features": [
+        "Signal primitive with get/set",
+        "Memo with computed value memoization",
+        "Effect with dependency auto-tracking",
+        "Effect stack mechanism",
+        "Automatic cleanup",
+        "Batch updates"
+      ]
+    },
+    {
+      "name": "runtime.hooks",
+      "path": "packages/runtime/src/hooks/index.ts",
+      "exports": [
+        "useState",
+        "useEffect",
+        "useMemo",
+        "useCallback",
+        "useContext",
+        "useRef",
+        "useReducer",
+        "createContext",
+        "Context"
+      ],
+      "variables": ["HOOK_STATE", "HOOK_INDEX"],
+      "configKeys": ["HOOK_VALIDATION_ENABLED"],
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["@ack/runtime.signals"],
+      "features": [
+        "useState hook",
+        "useEffect with dependency array",
+        "useMemo and useCallback optimizations",
+        "useContext and createContext",
+        "useRef for mutable references",
+        "Custom hook support",
+        "Hook call order validation"
+      ]
+    },
+    {
+      "name": "runtime.patching",
+      "path": "packages/runtime/src/reconciliation/patching.ts",
+      "exports": [
+        "reconcile",
+        "reconcileChildren",
+        "createVNode",
+        "createTextNode",
+        "patchDOM",
+        "mountComponent",
+        "updateComponent",
+        "hydrate",
+        "Reconciler"
+      ],
+      "variables": ["VNODE_CACHE", "DOM_NODE_MAP"],
+      "configKeys": ["RECONCILIATION_STRATEGY"],
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["@ack/runtime.signals"],
+      "features": [
+        "Virtual DOM representation",
+        "Keyed reconciliation",
+        "Incremental patching",
+        "Lifecycle callback integration (onMount, onUpdate, onDestroy)",
+        "SSR hydration",
+        "Portal support",
+        "Error boundary pattern"
+      ]
+    },
+    {
+      "name": "runtime.scheduler",
+      "path": "packages/runtime/src/scheduler/index.ts",
+      "exports": [
+        "scheduleTask",
+        "scheduleEffect",
+        "scheduleMacrotask",
+        "batch",
+        "flushBatch",
+        "Scheduler",
+        "createScheduler"
+      ],
+      "variables": ["TASK_QUEUE", "EFFECT_QUEUE", "FRAME_DEADLINE"],
+      "configKeys": ["SCHEDULER_ENABLED", "FRAME_RATE"],
+      "owner": "agent-runtime",
+      "lastModified": "2025-10-24T16:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": [],
+      "features": [
+        "Priority-based task queue",
+        "requestAnimationFrame integration",
+        "Microtask vs macrotask coordination",
+        "Batch effect execution",
+        "Main thread yield detection",
+        "Exponential backoff for expired tasks"
+      ]
+    },
+    {
+      "name": "cli.interactive",
+      "path": "packages/cli/src/interactive/index.ts",
+      "exports": [
+        "createInteractiveScaffold",
+        "promptProjectName",
+        "promptLanguage",
+        "promptFramework",
+        "promptFeatures",
+        "generateProject",
+        "InteractiveScaffolder"
+      ],
+      "variables": ["TEMPLATE_CACHE"],
+      "configKeys": ["INTERACTIVE_MODE", "DEFAULT_TEMPLATE"],
+      "owner": "agent-cli",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["inquirer", "fs-extra", "@ack/kit"],
+      "features": [
+        "Prompt-based project setup",
+        "TypeScript/JavaScript toggle",
+        "Test framework options (Vitest/Jest/Playwright)",
+        "Linter configuration (ESLint/Prettier)",
+        "Feature modules (Router, Store, SSR)",
+        "Non-interactive mode support",
+        "Cross-platform (Windows/Mac/Linux)"
+      ]
+    },
+    {
+      "name": "vite-plugin.toolchain",
+      "path": "packages/vite-plugin/src/toolchain/index.ts",
+      "exports": [
+        "createComponentInspector",
+        "createHMROverlay",
+        "createRouteVisualizer",
+        "createPerformanceMonitor",
+        "createDebugUtils",
+        "ToolchainManager"
+      ],
+      "variables": ["INSPECTOR_STATE", "DEVTOOLS_SOCKET"],
+      "configKeys": ["DEVTOOLS_ENABLED", "INSPECTOR_PORT"],
+      "owner": "agent-vite",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["@ack/compiler"],
+      "features": [
+        "Component tree inspector",
+        "State inspection (props/reactive)",
+        "HMR error boundary with fix hints",
+        "Route tree visualization",
+        "Performance metrics overlay",
+        "Time-travel debugging UI",
+        "Module graph visualization"
+      ]
+    },
+    {
+      "name": "api.schema",
+      "path": "packages/api/src/schema/index.ts",
+      "exports": [
+        "parseOpenAPI",
+        "parseGraphQL",
+        "generateTypes",
+        "generateValidator",
+        "generateSDK",
+        "SchemaClient",
+        "createSchemaClient"
+      ],
+      "variables": ["SCHEMA_CACHE", "TYPE_CACHE"],
+      "configKeys": ["SCHEMA_VALIDATION", "SDK_GENERATION_ENABLED"],
+      "owner": "agent-api",
+      "lastModified": "2025-10-24T17:00:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["zod", "valibot"],
+      "features": [
+        "OpenAPI spec parsing & type generation",
+        "GraphQL schema type generation",
+        "Zod/Valibot validation integration",
+        "Request/response typing",
+        "Error contract standardization",
+        "Language SDK generation (Go/Java/Rust)",
+        "Mock API generation"
+      ]
+    },
+    {
+      "name": "kit.loaders",
+      "path": "packages/kit/src/loaders/index.ts",
+      "exports": [
+        "createLoader",
+        "createAsyncAction",
+        "defineRoute",
+        "defineLayout",
+        "prefetchRoute",
+        "RouteLoader",
+        "LoaderExecutor"
+      ],
+      "variables": ["LOADER_CACHE", "DATA_CACHE"],
+      "configKeys": ["LOADER_TIMEOUT", "PREFETCH_STRATEGY"],
+      "owner": "agent-kit",
+      "lastModified": "2025-10-24T17:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["@ack/runtime", "@ack/loader"],
+      "features": [
+        "Route data loader execution",
+        "Server action support",
+        "Lazy/nested routes",
+        "Layout hierarchy",
+        "Prefetch strategies (eager, viewport, interaction)",
+        "Data revalidation on mutation",
+        "SSR stream rendering"
+      ]
+    },
+    {
+      "name": "store.timeline",
+      "path": "packages/store/src/timeline/index.ts",
+      "exports": [
+        "createSlice",
+        "createStore",
+        "createSelector",
+        "createAsyncAction",
+        "enableReduxDevTools",
+        "StoreSlice",
+        "StoreWithDevTools"
+      ],
+      "variables": ["STORE_HISTORY", "DEVTOOLS_CONNECTION"],
+      "configKeys": ["DEVTOOLS_ENABLED", "TIME_TRAVEL_ENABLED"],
+      "owner": "agent-store",
+      "lastModified": "2025-10-24T17:30:00Z",
+      "version": "0.1.0",
+      "breaking": false,
+      "dependencies": ["@ack/runtime.signals", "redux-devtools"],
+      "features": [
+        "Modular store slice system",
+        "Redux DevTools protocol implementation",
+        "Time-travel state recreation",
+        "Selector function memoization",
+        "Deterministic reducer chains",
+        "Async action/middleware support",
+        "Stream/Observable integration"
+      ]
     }
   ]
 }
