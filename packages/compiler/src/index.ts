@@ -61,7 +61,23 @@ import { HydrationCodeGen } from './codegen/hydrationCodeGen';
 import type { CompileResult } from './types/index';
 
 /**
- * Main compiler function - .ack dosyasını derle
+ * Compiles an ACK component source string into JavaScript.
+ *
+ * This function orchestrates the entire compilation process, including:
+ * 1. Parsing the .ack source into script, template, and style blocks.
+ * 2. Analyzing the script for reactive variables.
+ * 3. Building a dependency graph to track reactivity.
+ * 4. Generating JavaScript code in the specified format (ESM, CJS, or both).
+ * 5. Optionally generating code for SSR hydration.
+ *
+ * @param {string} source The raw source code of the .ack component.
+ * @param {object} [options={}] The compilation options.
+ * @param {string} [options.filePath='unknown.ack'] The file path of the component, used for error reporting.
+ * @param {'esm' | 'cjs' | 'both'} [options.format='esm'] The output module format.
+ * @param {boolean} [options.minify=false] Whether to minify the generated code.
+ * @param {boolean} [options.sourceMap=false] Whether to generate a source map.
+ * @param {boolean} [options.ssr=false] Whether to generate SSR-compatible code.
+ * @returns {CompileResult} An object containing the compiled code, and any errors or warnings.
  */
 export function compile(
   source: string,

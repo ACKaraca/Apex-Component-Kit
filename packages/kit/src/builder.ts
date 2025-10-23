@@ -8,6 +8,15 @@ import ackPlugin from '@ack/vite-plugin';
 import path from 'path';
 import fs from 'fs';
 
+/**
+ * Configuration options for the production build.
+ * @interface BuildOptions
+ * @property {string} [root=process.cwd()] - The root directory of the project.
+ * @property {string} [outDir='dist'] - The output directory for the build artifacts.
+ * @property {boolean} [minify=true] - Whether to minify the output.
+ * @property {boolean} [sourceMap=false] - Whether to generate source maps.
+ * @property {boolean} [analyze=false] - Whether to generate a bundle analysis report.
+ */
 export interface BuildOptions {
   root?: string;
   outDir?: string;
@@ -17,7 +26,10 @@ export interface BuildOptions {
 }
 
 /**
- * Production build yap
+ * Builds the ACK application for production. This function uses Vite to bundle
+ * and optimize the application.
+ * @param {BuildOptions} [options={}] - Configuration options for the build.
+ * @returns {Promise<void>} A promise that resolves when the build is complete.
  */
 export async function buildApp(options: BuildOptions = {}): Promise<void> {
   const {

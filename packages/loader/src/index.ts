@@ -7,6 +7,16 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Metadata for a loaded code chunk.
+ * @interface ChunkMetadata
+ * @property {string} id - The unique identifier for the chunk.
+ * @property {string} name - The name of the chunk.
+ * @property {number} size - The size of the chunk in bytes.
+ * @property {boolean} loaded - A flag indicating if the chunk has been loaded.
+ * @property {number} loadTime - The time it took to load the chunk in milliseconds.
+ * @property {string[]} dependencies - An array of chunk IDs that this chunk depends on.
+ */
 export interface ChunkMetadata {
   id: string;
   name: string;
@@ -16,6 +26,14 @@ export interface ChunkMetadata {
   dependencies: string[];
 }
 
+/**
+ * Configuration for the LazyLoader.
+ * @interface LoaderConfig
+ * @property {number} [maxConcurrentLoads=3] - The maximum number of chunks to load concurrently.
+ * @property {boolean} [preloadCritical=true] - If true, critical chunks will be preloaded.
+ * @property {boolean} [prefetchNonCritical=false] - If true, non-critical chunks will be prefetched.
+ * @property {number} [chunkTimeout=30000] - The timeout for loading a chunk in milliseconds.
+ */
 export interface LoaderConfig {
   maxConcurrentLoads?: number;
   preloadCritical?: boolean;
@@ -23,12 +41,27 @@ export interface LoaderConfig {
   chunkTimeout?: number;
 }
 
+/**
+ * Options for prefetching a chunk.
+ * @interface PrefetchOptions
+ * @property {'aggressive' | 'conservative' | 'idle'} [strategy='conservative'] - The prefetching strategy.
+ * @property {'high' | 'medium' | 'low'} [priority='medium'] - The priority for prefetching.
+ * @property {number} [timeout] - An optional timeout for the prefetch operation.
+ */
 export interface PrefetchOptions {
   strategy?: 'aggressive' | 'conservative' | 'idle';
   priority?: 'high' | 'medium' | 'low';
   timeout?: number;
 }
 
+/**
+ * The result of a lazy loading operation.
+ * @template T The expected type of the loaded module.
+ * @interface LazyLoadResult
+ * @property {T} data - The loaded module.
+ * @property {number} loadTime - The time it took to load the module in milliseconds.
+ * @property {boolean} cached - A flag indicating if the module was loaded from the cache.
+ */
 export interface LazyLoadResult<T> {
   data: T;
   loadTime: number;

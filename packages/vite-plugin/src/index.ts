@@ -8,6 +8,13 @@ import { compile } from '@ack/compiler';
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * Configuration options for the ACK Vite plugin.
+ * @interface AckPluginOptions
+ * @property {string[]} [include=[/\.ack$/]] - An array of patterns to include for processing.
+ * @property {string[]} [exclude=[/node_modules/]] - An array of patterns to exclude from processing.
+ * @property {string} [srcDir='src'] - The source directory of the application.
+ */
 interface AckPluginOptions {
   include?: string[];
   exclude?: string[];
@@ -15,7 +22,10 @@ interface AckPluginOptions {
 }
 
 /**
- * ACK Vite Plugin'i oluştur
+ * Creates a Vite plugin for handling .ack files. This plugin is responsible for
+ * compiling .ack components and enabling Hot Module Replacement (HMR).
+ * @param {AckPluginOptions} [options={}] - Configuration options for the plugin.
+ * @returns {Plugin} A Vite plugin object.
  */
 export default function ackPlugin(options: AckPluginOptions = {}): Plugin {
   const {

@@ -3,16 +3,37 @@
  * Türkçe: Bu modül, computed properties ve side effects'leri yönetir.
  */
 
+/**
+ * A cleanup function that is returned by an effect callback. It can be a function,
+ * void, or null.
+ */
 export type EffectCleanup = (() => void) | void | null;
+
+/**
+ * A callback function for an effect. It can optionally return a cleanup function.
+ */
 export type EffectCallback = () => EffectCleanup;
 
+/**
+ * Options for configuring an effect's behavior.
+ * @interface EffectOptions
+ * @property {boolean} [immediate=true] - If true, the effect runs immediately upon creation.
+ * @property {'pre' | 'post' | 'sync'} [flush='sync'] - Determines the timing of the effect's execution.
+ *           'pre': Runs before component updates.
+ *           'post': Runs after component updates.
+ *           'sync': Runs synchronously.
+ */
 export interface EffectOptions {
   immediate?: boolean;
   flush?: 'pre' | 'post' | 'sync';
 }
 
 /**
- * Effect oluştur - side effect'leri yönet.
+ * Creates and manages a side effect that can react to changes in dependencies.
+ * The effect is automatically tracked and re-run when its dependencies change.
+ * @param {EffectCallback} callback The function to execute as the side effect. It can return a cleanup function.
+ * @param {EffectOptions} [options={}] Configuration options for the effect.
+ * @returns {() => void} A function that can be called to manually stop and clean up the effect.
  */
 export function createEffect(
   callback: EffectCallback,

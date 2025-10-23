@@ -7,6 +7,15 @@ import { createServer, type ViteDevServer } from 'vite';
 import ackPlugin from '@ack/vite-plugin';
 import path from 'path';
 
+/**
+ * Configuration options for the development server.
+ * @interface DevServerOptions
+ * @property {string} [root=process.cwd()] - The root directory of the project.
+ * @property {number} [port=5173] - The port to run the server on.
+ * @property {string} [host='localhost'] - The hostname to run the server on.
+ * @property {boolean} [open=true] - Whether to automatically open the browser.
+ * @property {boolean} [https=false] - Whether to use HTTPS.
+ */
 export interface DevServerOptions {
   root?: string;
   port?: number;
@@ -16,7 +25,9 @@ export interface DevServerOptions {
 }
 
 /**
- * ACK Dev Server'ı başlat
+ * Starts the ACK development server, which is built on top of Vite.
+ * @param {DevServerOptions} [options={}] - Configuration options for the server.
+ * @returns {Promise<ViteDevServer>} A promise that resolves with the Vite dev server instance.
  */
 export async function startDevServer(options: DevServerOptions = {}): Promise<ViteDevServer> {
   const {

@@ -1,8 +1,18 @@
 /**
- * TokenLexer - .ack dosyalarını tokenize eder
- * Türkçe: Bu sınıf, .ack dosyasını token stream'e dönüştürür.
+ * The TokenLexer class is responsible for converting an .ack source string
+ * into a stream of tokens. It handles basic tokenization for tags, attributes,
+ * and string content.
+ * @class TokenLexer
  */
 
+/**
+ * Represents a single token extracted by the TokenLexer.
+ * @interface Token
+ * @property {string} type - The type of the token (e.g., 'tagOpen', 'string', 'identifier').
+ * @property {string} value - The actual string value of the token.
+ * @property {number} line - The line number where the token starts.
+ * @property {number} column - The column number where the token starts.
+ */
 export interface Token {
   type: string;
   value: string;
@@ -17,12 +27,18 @@ export class TokenLexer {
   private column: number = 1;
   private tokens: Token[] = [];
 
+  /**
+   * Creates an instance of TokenLexer.
+   * @param {string} source The source code to tokenize.
+   */
   constructor(source: string) {
     this.source = source;
   }
 
   /**
-   * Kaynak kodu tokenize et.
+   * Tokenizes the entire source string into an array of tokens.
+   * This is the main public method of the class.
+   * @returns {Token[]} An array of tokens representing the source code.
    */
   public tokenize(): Token[] {
     while (this.position < this.source.length) {

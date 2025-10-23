@@ -5,6 +5,11 @@
 
 import * as vscode from 'vscode';
 
+/**
+ * Provides the webview for the ACK Developer Tools.
+ * @class ACKDevToolsProvider
+ * @implements {vscode.WebviewViewProvider}
+ */
 export class ACKDevToolsProvider implements vscode.WebviewViewProvider {
   private webview?: vscode.WebviewPanel;
   private context?: vscode.ExtensionContext;
@@ -12,7 +17,8 @@ export class ACKDevToolsProvider implements vscode.WebviewViewProvider {
   constructor() {}
 
   /**
-   * Webview'i ayarla
+   * Sets the webview panel for the dev tools.
+   * @param {vscode.WebviewPanel} webview - The webview panel to be used.
    */
   setWebview(webview: vscode.WebviewPanel): void {
     this.webview = webview;

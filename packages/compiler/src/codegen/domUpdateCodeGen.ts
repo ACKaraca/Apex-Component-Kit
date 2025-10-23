@@ -6,6 +6,14 @@
 import { ComponentModel, ReactiveVariable } from '../types/index';
 import { DependencyGraph } from '../analyzer/dependencyGraph';
 
+/**
+ * Represents a single instruction for updating the DOM when a reactive variable changes.
+ * @interface DOMUpdateInstruction
+ * @property {string} varName - The name of the reactive variable that triggers the update.
+ * @property {string} selector - The CSS selector for the DOM element(s) to update.
+ * @property {'textContent' | 'innerHTML' | 'attribute' | 'class' | 'style'} operation - The type of DOM operation to perform.
+ * @property {string} value - The value to be applied, often the name of the variable itself.
+ */
 export interface DOMUpdateInstruction {
   varName: string;
   selector: string;
@@ -13,11 +21,22 @@ export interface DOMUpdateInstruction {
   value: string;
 }
 
+/**
+ * The DOMUpdateCodeGen class is responsible for generating the code that
+ * updates the DOM when reactive variables change. It uses the dependency graph
+ * to determine which parts of the DOM need to be updated.
+ * @class DOMUpdateCodeGen
+ */
 export class DOMUpdateCodeGen {
   private component: ComponentModel;
   private dependencyGraph: DependencyGraph;
   private updateInstructions: DOMUpdateInstruction[] = [];
 
+  /**
+   * Creates an instance of DOMUpdateCodeGen.
+   * @param {ComponentModel} component The component model.
+   * @param {DependencyGraph} depGraph The dependency graph for the component's reactive variables.
+   */
   constructor(component: ComponentModel, depGraph: DependencyGraph) {
     this.component = component;
     this.dependencyGraph = depGraph;
@@ -25,7 +44,7 @@ export class DOMUpdateCodeGen {
   }
 
   /**
-   * Güncellemeleri analiz et.
+   * Analyzes the template to create a list of DOM update instructions.
    */
   private analyzeUpdates(): void {
     // Template'de kullanılan değişkenleri bul

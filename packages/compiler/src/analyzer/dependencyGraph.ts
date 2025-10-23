@@ -5,12 +5,20 @@
 
 import { ReactiveVariable, DependencyNode as DependencyNodeType } from '../types/index';
 
+/**
+ * The DependencyGraph class represents the relationships between reactive variables
+ * as a directed graph. This is used to determine the order of updates and to
+ * detect circular dependencies.
+ * @class DependencyGraph
+ */
 export class DependencyGraph {
   public nodes: Map<string, DependencyNodeType> = new Map();
   public edges: Map<string, string[]> = new Map();
 
   /**
-   * Grafiği reaktif değişkenlerden oluştur.
+   * Builds the dependency graph from an array of reactive variables.
+   * Each variable becomes a node, and its dependencies become edges.
+   * @param {ReactiveVariable[]} variables An array of reactive variables.
    */
   public buildFromVariables(variables: ReactiveVariable[]): void {
     this.nodes.clear();

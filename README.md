@@ -2,136 +2,54 @@
 
 **Apex Component Kit (ACK)** - Next-generation JavaScript framework.
 
+## 🚀 Get Started
 
-## 📁 Project Structure
+To get started with the ACK Framework, you can use the CLI to create a new project.
 
-```
-ACKFrame/
-├── packages/
-│   ├── compiler/          # @ack/compiler - Compiler core
-│   │   ├── src/
-│   │   │   ├── parser/    # Parser components
-│   │   │   ├── analyzer/  # Reactivity analysis
-│   │   │   ├── codegen/   # Code generation
-│   │   │   ├── types/     # TypeScript types
-│   │   │   └── index.ts   # Public API
-│   │   ├── package.json
-│   │   ├── tsconfig.json
-│   │   └── README.md
-│   │
-│   ├── runtime/           # @ack/runtime - Minimal runtime
-│   │   ├── src/
-│   │   │   ├── reactivity.ts    # Reactive system
-│   │   │   ├── mount.ts         # Component mounting
-│   │   │   ├── effects.ts       # Effect management
-│   │   │   └── index.ts         # Public API
-│   │   ├── package.json
-│   │   ├── tsconfig.json
-│   │   └── README.md
-│   │
-│   ├── kit/               # @ack/kit - Application framework (Phase 2)
-│   ├── cli/               # @ack/cli - Project scaffolding (Phase 2)
-│   └── vite-plugin/       # @ack/vite-plugin - Vite integration (Phase 2)
-│
-├── pnpm-workspace.yaml    # Monorepo structure
-├── tsconfig.json          # Root TypeScript config
-├── package.json           # Root package.json
-└── README.md              # This file
-```
+### 🛠 Installation
 
-## 🛠 Installation
-
-### Requirements
-
-- Node.js 16+
-- pnpm (or npm/yarn)
-
-### Setup
+First, make sure you have Node.js 16+ and pnpm installed. Then, you can create a new ACK project using the following command:
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Build compiler
-pnpm --filter @ack/compiler run build
-
-# Build runtime
-pnpm --filter @ack/runtime run build
+pnpm create ack-app my-ack-app
 ```
 
-## 📦 Packages
+This will create a new directory called `my-ack-app` with a basic ACK project setup.
 
-### @ack/compiler
+### 🏃‍♀️ Running the Development Server
 
-**Purpose**: Parse .ack files into optimized JavaScript.
-
-**Core Classes:**
-- `TokenLexer` - Tokenization
-- `BlockParser` - Script/Template/Style separation
-- `TemplateParser` - Template DSL parsing
-- `StyleParser` - Scoped CSS processing
-- `ComponentParser` - Orchestrate all parsers
-- `ReactivityAnalyzer` - Reactivity analysis
-- `DependencyGraph` - Dependency tracking
-- `ESMGenerator` - ES6 Module output
-- `CJSGenerator` - CommonJS output
-- `DOMUpdateCodeGen` - DOM update code generation
-- `HydrationCodeGen` - SSR hydration support
-
-**Public API:**
-
-```typescript
-import { compile } from '@ack/compiler';
-
-const result = compile(sourceCode, {
-  format: 'esm',  // 'esm' | 'cjs' | 'both'
-  minify: false,
-  sourceMap: false,
-  ssr: false
-});
-
-console.log(result.code);
-console.log(result.errors);
-```
-
-### @ack/runtime
-
-**Purpose**: Mount compiled components and manage reactivity.
-
-**Core Functions:**
-- `createReactive()` - Create reactive proxy
-- `watch()` - Watch for changes
-- `mount()` - Mount component to DOM
-- `hydrate()` - Hydrate SSR HTML
-- `createEffect()` - Side effects management
-- `computed()` - Computed properties
-
-**Public API:**
-
-```typescript
-import { mount, createReactive } from '@ack/runtime';
-
-const component = MyComponent({ initialProps });
-mount(component, '#app');
-```
-
-## 🎯 Development Workflow
-
-### Test Compiler
+To start the development server, navigate to your new project directory and run the following command:
 
 ```bash
-cd packages/compiler
-pnpm dev    # Watch mode
-pnpm test   # Run tests
+cd my-ack-app
+pnpm dev
 ```
 
-### Test Runtime
+This will start a Vite-based development server with Hot Module Replacement (HMR) enabled.
+
+### 📦 Building for Production
+
+To build your ACK application for production, run the following command:
 
 ```bash
-cd packages/runtime
-pnpm dev    # Watch mode
-pnpm test   # Run tests
+pnpm build
 ```
+
+This will create a `dist` directory with the optimized and bundled application.
+
+## API Reference
+
+The ACK Framework is composed of several packages, each with its own API.
+
+- **`@ack/compiler`**: The compiler for `.ack` files.
+- **`@ack/runtime`**: The runtime for ACK components.
+- **`@ack/kit`**: A set of tools for building ACK applications.
+- **`@ack/cli`**: The command-line interface for the ACK Framework.
+- **`@ack/vite-plugin`**: The Vite plugin for `.ack` files.
+
+## Examples
+
+You can find examples of ACK components in the `packages/cli/src/create.ts` file. These examples demonstrate how to create a counter, a to-do list, and a blank project.
 
 ## 📝 .ack Component Format
 

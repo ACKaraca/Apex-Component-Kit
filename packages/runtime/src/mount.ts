@@ -3,6 +3,14 @@
  * Türkçe: Bu modül, derlenmiş bileşenleri DOM'a bağlar ve yönetir.
  */
 
+/**
+ * Represents a compiled ACK component.
+ * @interface ACKComponent
+ * @property {HTMLElement} element - The root DOM element of the component.
+ * @property {(target: HTMLElement | string) => void} mount - A method to mount the component to a target element.
+ * @property {() => void} destroy - A method to unmount and clean up the component.
+ * @property {any} [key: string] - Allows for additional properties and methods on the component instance.
+ */
 export interface ACKComponent {
   element: HTMLElement;
   mount(target: HTMLElement | string): void;
@@ -11,7 +19,11 @@ export interface ACKComponent {
 }
 
 /**
- * Bir bileşeni DOM'a bağla.
+ * Mounts a compiled ACK component to a specified target in the DOM.
+ * @param {ACKComponent} component The component instance to mount.
+ * @param {HTMLElement | string} target The DOM element or a CSS selector for the target.
+ * @returns {HTMLElement} The root element of the mounted component.
+ * @throws {Error} If the target element is not found.
  */
 export function mount(
   component: ACKComponent,

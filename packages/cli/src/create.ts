@@ -215,7 +215,11 @@ build/
 *.log`;
 
 /**
- * Proje template'ları
+ * An object containing the available project templates. Each template defines the files
+ * that will be generated for a new project.
+ * @property {object} counter - A simple counter application.
+ * @property {object} todo - A todo list application.
+ * @property {object} blank - A blank project with a basic setup.
  */
 const TEMPLATES = {
   'counter': {
@@ -257,7 +261,10 @@ const TEMPLATES = {
 };
 
 /**
- * Proje oluştur
+ * Creates a new ACK project from a specified template.
+ * @param {string} projectName The name of the project to create.
+ * @param {'counter' | 'todo' | 'blank'} [template='blank'] The template to use for the new project.
+ * @returns {Promise<void>} A promise that resolves when the project has been created.
  */
 async function createProject(projectName: string, template: keyof typeof TEMPLATES = 'blank'): Promise<void> {
   const projectPath = path.join(process.cwd(), projectName);

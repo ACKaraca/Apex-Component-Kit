@@ -7,6 +7,14 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Configuration options for an ErrorBoundary.
+ * @interface ErrorBoundaryConfig
+ * @property {(error: Error, errorInfo: ErrorInfo) => any} [fallback] - A function that returns a fallback UI to render when an error is caught.
+ * @property {(error: Error, errorInfo: ErrorInfo) => void} [onError] - A callback function that is invoked when an error is caught.
+ * @property {Array<string | number>} [resetKeys] - An array of keys that, when changed, will reset the error boundary's state.
+ * @property {boolean} [resetOnPropsChange=false] - If true, the error boundary will reset when its props change.
+ */
 export interface ErrorBoundaryConfig {
   fallback?: (error: Error, errorInfo: ErrorInfo) => any;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
@@ -14,12 +22,26 @@ export interface ErrorBoundaryConfig {
   resetOnPropsChange?: boolean;
 }
 
+/**
+ * Information about an error, including the component stack trace.
+ * @interface ErrorInfo
+ * @property {string} componentStack - The component stack trace where the error occurred.
+ * @property {string} [errorBoundary] - The name of the error boundary that caught the error.
+ * @property {string} [errorBoundaryStack] - The stack trace of the error boundary itself.
+ */
 export interface ErrorInfo {
   componentStack: string;
   errorBoundary?: string;
   errorBoundaryStack?: string;
 }
 
+/**
+ * The internal state of an ErrorBoundary.
+ * @interface ErrorBoundaryState
+ * @property {boolean} hasError - A flag indicating if an error has been caught.
+ * @property {Error | null} error - The caught error object.
+ * @property {ErrorInfo | null} errorInfo - Additional information about the error.
+ */
 export interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;

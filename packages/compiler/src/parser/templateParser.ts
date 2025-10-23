@@ -1,8 +1,18 @@
 /**
- * TemplateParser - Template DSL'ini AST'ye dönüştürür
- * Türkçe: Bu sınıf, .ack dosyasındaki template bölümünü ayrıştırır ve AST üretir.
+ * The TemplateParser class is responsible for parsing the template block of an .ack file
+ * and converting it into an Abstract Syntax Tree (AST). This AST represents the
+ * structure and content of the template, which is later used for code generation.
+ * @class TemplateParser
  */
 
+/**
+ * Represents the root of the template's Abstract Syntax Tree (AST).
+ * @interface TemplateAST
+ * @property {'root'} type - The type of the node, which is always 'root' for the top-level AST object.
+ * @property {TemplateNode[]} children - An array of child nodes representing the top-level elements of the template.
+ * @property {string[]} usedVariables - An array of unique variable names that are used within the template.
+ * @property {EventBinding[]} events - An array of event bindings found in the template.
+ */
 export interface TemplateAST {
   type: 'root';
   children: TemplateNode[];
@@ -10,6 +20,15 @@ export interface TemplateAST {
   events: EventBinding[];
 }
 
+/**
+ * Represents a node in the template AST. It can be an element, a text node, or an interpolation.
+ * @interface TemplateNode
+ * @property {'element' | 'text' | 'interpolation'} type - The type of the node.
+ * @property {string} [tag] - The tag name of the element (e.g., 'div', 'p'). Only present for 'element' nodes.
+ * @property {string} [content] - The text content of the node. Present for 'text' and 'interpolation' nodes.
+ * @property {TemplateAttribute[]} [attributes] - An array of attributes for the element. Only present for 'element' nodes.
+ * @property {TemplateNode[]} [children] - An array of child nodes. Only present for 'element' nodes.
+ */
 export interface TemplateNode {
   type: 'element' | 'text' | 'interpolation';
   tag?: string;
@@ -18,13 +37,29 @@ export interface TemplateNode {
   children?: TemplateNode[];
 }
 
+/**
+ * Represents an attribute of an HTML element in the template.
+ * @interface TemplateAttribute
+ * @property {string} name - The name of the attribute (e.g., 'class', '@click').
+ * @property {string} value - The value of the attribute.
+ * @property {boolean} isBinding - True if the attribute is an event binding (e.g., starts with '@').
+ * @property {boolean} isInterpolation - True if the attribute value contains an interpolation (e.g., `class="{myClass}"`).
+ */
 export interface TemplateAttribute {
   name: string;
   value: string;
-  isBinding: boolean; // {@click} veya @click gibi
+  isBinding: boolean; // {@click} or @click
   isInterpolation: boolean; // {variable}
 }
 
+/**
+ * Represents an event binding in the template (e.g., `@click="handler"`).
+ * @interface EventBinding
+ * @property {string} element - The tag name of the element the event is bound to.
+ * @property {string} event - The name of the event (e.g., 'click').
+ * @property {string} handler - The name of the handler function in the script.
+ * @property {number} line - The line number where the event binding occurs.
+ */
 export interface EventBinding {
   element: string;
   event: string;
@@ -38,12 +73,17 @@ export class TemplateParser {
   private usedVariables: Set<string> = new Set();
   private events: EventBinding[] = [];
 
+  /**
+   * Creates an instance of TemplateParser.
+   * @param {string} source The template source code to parse.
+   */
   constructor(source: string) {
     this.source = source;
   }
 
   /**
-   * Template'i parse et.
+   * Parses the template source and returns the AST.
+   * @returns {TemplateAST} The Abstract Syntax Tree of the template.
    */
   public parse(): TemplateAST {
     this.position = 0;

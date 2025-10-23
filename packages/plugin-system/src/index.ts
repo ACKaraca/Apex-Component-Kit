@@ -7,6 +7,20 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Configuration for a plugin.
+ * @interface PluginConfig
+ * @property {string} name - The unique name of the plugin.
+ * @property {string} version - The version of the plugin.
+ * @property {string} [description] - A brief description of the plugin.
+ * @property {string} [author] - The author of the plugin.
+ * @property {Record<string, string>} [dependencies] - A dictionary of dependencies for the plugin.
+ * @property {PluginHooks} [hooks] - A dictionary of hooks that the plugin subscribes to.
+ * @property {PluginCommand[]} [commands] - An array of commands that the plugin provides.
+ * @property {PluginComponent[]} [components] - An array of components that the plugin provides.
+ * @property {PluginMiddleware[]} [middlewares] - An array of middlewares that the plugin provides.
+ * @property {PluginEnhancer[]} [enhancers] - An array of enhancers that the plugin provides.
+ */
 export interface PluginConfig {
   name: string;
   version: string;
@@ -20,6 +34,19 @@ export interface PluginConfig {
   enhancers?: PluginEnhancer[];
 }
 
+/**
+ * A dictionary of lifecycle hooks that a plugin can subscribe to.
+ * @interface PluginHooks
+ * @property {HookFunction[]} [beforeMount] - Hooks to run before a component is mounted.
+ * @property {HookFunction[]} [afterMount] - Hooks to run after a component is mounted.
+ * @property {HookFunction[]} [beforeUnmount] - Hooks to run before a component is unmounted.
+ * @property {HookFunction[]} [afterUnmount] - Hooks to run after a component is unmounted.
+ * @property {HookFunction[]} [beforeUpdate] - Hooks to run before a component is updated.
+ * @property {HookFunction[]} [afterUpdate] - Hooks to run after a component is updated.
+ * @property {HookFunction[]} [onError] - Hooks to run when an error occurs.
+ * @property {HookFunction[]} [onRouteChange] - Hooks to run when the route changes.
+ * @property {HookFunction[]} [onStateChange] - Hooks to run when the application state changes.
+ */
 export interface PluginHooks {
   beforeMount?: HookFunction[];
   afterMount?: HookFunction[];
@@ -33,6 +60,14 @@ export interface PluginHooks {
   [key: string]: HookFunction[] | undefined;
 }
 
+/**
+ * A command that can be executed from the CLI or other parts of the application.
+ * @interface PluginCommand
+ * @property {string} name - The name of the command.
+ * @property {string} description - A description of what the command does.
+ * @property {CommandHandler} handler - The function to execute when the command is run.
+ * @property {CommandOption[]} [options] - An array of options for the command.
+ */
 export interface PluginCommand {
   name: string;
   description: string;
@@ -40,6 +75,15 @@ export interface PluginCommand {
   options?: CommandOption[];
 }
 
+/**
+ * An option for a plugin command.
+ * @interface CommandOption
+ * @property {string} name - The name of the option.
+ * @property {'string' | 'number' | 'boolean'} type - The type of the option's value.
+ * @property {boolean} [required=false] - If true, the option must be provided.
+ * @property {any} [default] - The default value for the option.
+ * @property {string} [description] - A description of the option.
+ */
 export interface CommandOption {
   name: string;
   type: 'string' | 'number' | 'boolean';
@@ -48,28 +92,74 @@ export interface CommandOption {
   description?: string;
 }
 
+/**
+ * A component that is provided by a plugin.
+ * @interface PluginComponent
+ * @property {string} name - The name of the component.
+ * @property {any} component - The component itself.
+ * @property {Record<string, any>} [props] - Default props for the component.
+ */
 export interface PluginComponent {
   name: string;
   component: any;
   props?: Record<string, any>;
 }
 
+/**
+ * A middleware function that is provided by a plugin.
+ * @interface PluginMiddleware
+ * @property {string} name - The name of the middleware.
+ * @property {MiddlewareHandler} handler - The middleware function.
+ * @property {number} [priority=0] - The priority of the middleware in the execution order.
+ */
 export interface PluginMiddleware {
   name: string;
   handler: MiddlewareHandler;
   priority?: number;
 }
 
+/**
+ * An enhancer that is provided by a plugin to modify or extend existing functionality.
+ * @interface PluginEnhancer
+ * @property {string} name - The name of the enhancer.
+ * @property {any} enhancer - The enhancer function or object.
+ * @property {string} [target] - The target of the enhancement.
+ */
 export interface PluginEnhancer {
   name: string;
   enhancer: any;
   target?: string;
 }
 
+/**
+ * A function that is executed as a hook.
+ * @param {...any[]} args - The arguments passed to the hook.
+ */
 export type HookFunction = (...args: any[]) => void | Promise<void>;
+
+/**
+ * A function that handles a command.
+ * @param {Record<string, any>} args - The arguments for the command.
+ */
 export type CommandHandler = (args: Record<string, any>) => void | Promise<void>;
+
+/**
+ * A function that acts as a middleware.
+ * @param {any} ctx - The context object.
+ * @param {() => void} next - A function to call to pass control to the next middleware.
+ */
 export type MiddlewareHandler = (ctx: any, next: () => void) => void | Promise<void>;
 
+/**
+ * Configuration for the PluginManager.
+ * @interface PluginManagerConfig
+ * @property {boolean} [autoLoad=true] - If true, automatically loads plugins from the plugin directory.
+ * @property {string} [pluginDir] - The directory to load plugins from.
+ * @property {PluginRegistry} [registry] - An initial registry of plugins.
+ * @property {(plugin: PluginInstance) => void} [onPluginLoad] - A callback to run when a plugin is loaded.
+ * @property {(plugin: PluginInstance) => void} [onPluginUnload] - A callback to run when a plugin is unloaded.
+ * @property {(plugin: PluginInstance, error: Error) => void} [onPluginError] - A callback to run when a plugin throws an error.
+ */
 export interface PluginManagerConfig {
   autoLoad?: boolean;
   pluginDir?: string;
@@ -79,6 +169,18 @@ export interface PluginManagerConfig {
   onPluginError?: (plugin: PluginInstance, error: Error) => void;
 }
 
+/**
+ * An instance of a loaded plugin.
+ * @interface PluginInstance
+ * @property {PluginConfig} config - The configuration of the plugin.
+ * @property {any} instance - The actual instance of the plugin.
+ * @property {boolean} isLoaded - A flag indicating if the plugin is loaded.
+ * @property {Map<string, HookFunction[]>} hooks - A map of hooks provided by the plugin.
+ * @property {Map<string, PluginCommand>} commands - A map of commands provided by the plugin.
+ * @property {Map<string, PluginComponent>} components - A map of components provided by the plugin.
+ * @property {Map<string, PluginMiddleware>} middlewares - A map of middlewares provided by the plugin.
+ * @property {Map<string, PluginEnhancer>} enhancers - A map of enhancers provided by the plugin.
+ */
 export interface PluginInstance {
   config: PluginConfig;
   instance: any;
@@ -90,6 +192,16 @@ export interface PluginInstance {
   enhancers: Map<string, PluginEnhancer>;
 }
 
+/**
+ * A registry of all loaded plugins and their contributions.
+ * @interface PluginRegistry
+ * @property {Map<string, PluginInstance>} plugins - A map of plugin names to their instances.
+ * @property {Map<string, HookFunction[]>} hooks - A map of hook names to an array of hook functions.
+ * @property {Map<string, PluginCommand>} commands - A map of command names to their definitions.
+ * @property {Map<string, PluginComponent>} components - A map of component names to their definitions.
+ * @property {Map<string, PluginMiddleware>} middlewares - A map of middleware names to their definitions.
+ * @property {Map<string, PluginEnhancer>} enhancers - A map of enhancer names to their definitions.
+ */
 export interface PluginRegistry {
   plugins: Map<string, PluginInstance>;
   hooks: Map<string, HookFunction[]>;

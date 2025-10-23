@@ -7,6 +7,14 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Configuration options for a portal.
+ * @interface PortalConfig
+ * @property {Element | string} [container=document.body] - The DOM element or CSS selector where the portal content will be rendered.
+ * @property {(element: Element) => void} [onMount] - A callback function that is invoked when the portal is mounted.
+ * @property {(element: Element) => void} [onUnmount] - A callback function that is invoked when the portal is unmounted.
+ * @property {boolean} [multiple=false] - If true, allows multiple portals to be mounted in the same container.
+ */
 export interface PortalConfig {
   container?: Element | string;
   onMount?: (element: Element) => void;
@@ -14,6 +22,15 @@ export interface PortalConfig {
   multiple?: boolean;
 }
 
+/**
+ * Represents an instance of a portal.
+ * @interface PortalInstance
+ * @property {string} id - A unique identifier for the portal.
+ * @property {Element} element - The DOM element that is being portal.
+ * @property {Element} container - The DOM element where the portal is rendered.
+ * @property {boolean} isMounted - A flag indicating if the portal is currently mounted.
+ * @property {PortalConfig} config - The configuration options for the portal.
+ */
 export interface PortalInstance {
   id: string;
   element: Element;
@@ -22,6 +39,12 @@ export interface PortalInstance {
   config: PortalConfig;
 }
 
+/**
+ * The internal state of the PortalManager.
+ * @interface PortalManagerState
+ * @property {Map<string, PortalInstance>} portals - A map of portal IDs to portal instances.
+ * @property {Map<Element, Set<string>>} containers - A map of container elements to a set of portal IDs.
+ */
 export interface PortalManagerState {
   portals: Map<string, PortalInstance>;
   containers: Map<Element, Set<string>>;

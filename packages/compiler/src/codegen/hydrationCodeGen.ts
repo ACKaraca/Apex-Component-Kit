@@ -5,21 +5,39 @@
 
 import { ComponentModel } from '../types/index';
 
+/**
+ * Represents the data needed for client-side hydration of a server-rendered component.
+ * @interface HydrationData
+ * @property {{ name: string; value: any }[]} variables - An array of reactive variables and their initial values.
+ * @property {string} selector - The CSS selector for the component's root element.
+ * @property {string} scopeId - The scope ID for the component's styles.
+ */
 export interface HydrationData {
   variables: { name: string; value: any }[];
   selector: string;
   scopeId: string;
 }
 
+/**
+ * The HydrationCodeGen class is responsible for generating the client-side
+ * JavaScript code required to hydrate a server-rendered ACK component.
+ * @class HydrationCodeGen
+ */
 export class HydrationCodeGen {
   private component: ComponentModel;
 
+  /**
+   * Creates an instance of HydrationCodeGen.
+   * @param {ComponentModel} component The component model to generate hydration code for.
+   */
   constructor(component: ComponentModel) {
     this.component = component;
   }
 
   /**
-   * Hydration kodunu üret.
+   * Generates the full hydration script for the component.
+   * @param {string} ssrHtml The server-rendered HTML of the component.
+   * @returns {string} The client-side hydration script.
    */
   public generate(ssrHtml: string): string {
     let code = '';

@@ -17,11 +17,23 @@ import {
   EventBinding,
 } from '../types/index';
 
+/**
+ * The ComponentParser class orchestrates the parsing of an entire .ack component.
+ * It uses BlockParser, TemplateParser, and StyleParser to deconstruct the component
+ * file into a comprehensive ComponentModel.
+ * @class ComponentParser
+ */
 export class ComponentParser {
   private source: string;
   private filePath: string;
   private componentName: string;
 
+  /**
+   * Creates an instance of ComponentParser.
+   * @param {string} source The raw source code of the .ack component.
+   * @param {string} filePath The file path of the component.
+   * @param {string} [componentName] An optional name for the component. If not provided, it will be inferred from the file path.
+   */
   constructor(source: string, filePath: string, componentName?: string) {
     this.source = source;
     this.filePath = filePath;
@@ -30,7 +42,9 @@ export class ComponentParser {
   }
 
   /**
-   * Dosya yolundan component adı çıkart.
+   * Extracts the component name from its file path.
+   * @param {string} filePath The file path of the component.
+   * @returns {string} The extracted component name.
    */
   private extractComponentNameFromPath(filePath: string): string {
     const parts = filePath.split('/');
@@ -39,7 +53,8 @@ export class ComponentParser {
   }
 
   /**
-   * Component'i tam olarak parse et.
+   * Parses the entire component source and returns a structured ComponentModel.
+   * @returns {ComponentModel} The fully parsed component model.
    */
   public parse(): ComponentModel {
     // Bloklarını ayır

@@ -9,11 +9,21 @@ import {
 } from '../types/index';
 import { ESMGenerator } from './esmGenerator';
 
+/**
+ * The CJSGenerator class is responsible for generating JavaScript code in the
+ * CommonJS format from a ComponentModel.
+ * @class CJSGenerator
+ */
 export class CJSGenerator {
   private component: ComponentModel;
   private options: CodegenOptions;
   private esmGenerator: ESMGenerator;
 
+  /**
+   * Creates an instance of CJSGenerator.
+   * @param {ComponentModel} component The component model to generate code from.
+   * @param {Partial<CodegenOptions>} [options={}] Code generation options.
+   */
   constructor(component: ComponentModel, options: Partial<CodegenOptions> = {}) {
     this.component = component;
     this.options = {
@@ -28,7 +38,8 @@ export class CJSGenerator {
   }
 
   /**
-   * CommonJS kodunu üret.
+   * Generates the full CommonJS module code for the component.
+   * @returns {string} The generated JavaScript code as a string.
    */
   public generate(): string {
     let code = '';

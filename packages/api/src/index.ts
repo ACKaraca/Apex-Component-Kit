@@ -7,6 +7,16 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Configuration for an HTTP request.
+ * @interface RequestConfig
+ * @property {'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'} [method='GET'] - The HTTP request method.
+ * @property {Record<string, string>} [headers] - A dictionary of request headers.
+ * @property {any} [body] - The request body for methods like POST or PUT.
+ * @property {number} [timeout=30000] - The request timeout in milliseconds.
+ * @property {number} [retry=3] - The number of times to retry a failed request.
+ * @property {boolean} [cache=true] - If true, caches GET requests.
+ */
 export interface RequestConfig {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
@@ -16,6 +26,15 @@ export interface RequestConfig {
   cache?: boolean;
 }
 
+/**
+ * Represents the response from an HTTP request.
+ * @template T The expected type of the response data.
+ * @interface ResponseData
+ * @property {T} data - The parsed response data.
+ * @property {number} status - The HTTP status code.
+ * @property {string} statusText - The HTTP status text.
+ * @property {Record<string, string>} headers - A dictionary of response headers.
+ */
 export interface ResponseData<T = any> {
   data: T;
   status: number;
@@ -23,18 +42,42 @@ export interface ResponseData<T = any> {
   headers: Record<string, string>;
 }
 
+/**
+ * Represents an error that occurred during an API request.
+ * @interface ApiError
+ * @property {string} message - The error message.
+ * @property {number} [status] - The HTTP status code, if available.
+ * @property {any} [data] - The error response data, if available.
+ */
 export interface ApiError {
   message: string;
   status?: number;
   data?: any;
 }
 
+/**
+ * Represents an entry in the cache.
+ * @template T The type of the cached data.
+ * @interface CacheEntry
+ * @property {T} data - The cached data.
+ * @property {number} timestamp - The timestamp when the data was cached.
+ * @property {number} ttl - The time-to-live for the cache entry in milliseconds.
+ */
 export interface CacheEntry<T = any> {
   data: T;
   timestamp: number;
   ttl: number;
 }
 
+/**
+ * Represents the state of a data fetching operation.
+ * @template T The expected type of the fetched data.
+ * @interface DataFetchState
+ * @property {T | null} data - The fetched data, or null if not yet fetched.
+ * @property {boolean} loading - A flag indicating if the data is currently being fetched.
+ * @property {ApiError | null} error - An error object if the fetch failed.
+ * @property {() => Promise<void>} refetch - A function to re-trigger the data fetch.
+ */
 export interface DataFetchState<T = any> {
   data: T | null;
   loading: boolean;
@@ -42,6 +85,12 @@ export interface DataFetchState<T = any> {
   refetch: () => Promise<void>;
 }
 
+/**
+ * Represents a GraphQL query.
+ * @interface GraphQLQuery
+ * @property {string} query - The GraphQL query string.
+ * @property {Record<string, any>} [variables] - A dictionary of variables for the query.
+ */
 export interface GraphQLQuery {
   query: string;
   variables?: Record<string, any>;

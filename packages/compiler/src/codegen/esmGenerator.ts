@@ -11,10 +11,20 @@ import {
   CodegenOptions,
 } from '../types/index';
 
+/**
+ * The ESMGenerator class is responsible for generating JavaScript code in the
+ * ES6 Module (ESM) format from a ComponentModel.
+ * @class ESMGenerator
+ */
 export class ESMGenerator {
   private component: ComponentModel;
   private options: CodegenOptions;
 
+  /**
+   * Creates an instance of ESMGenerator.
+   * @param {ComponentModel} component The component model to generate code from.
+   * @param {Partial<CodegenOptions>} [options={}] Code generation options.
+   */
   constructor(component: ComponentModel, options: Partial<CodegenOptions> = {}) {
     this.component = component;
     this.options = {
@@ -28,7 +38,8 @@ export class ESMGenerator {
   }
 
   /**
-   * ES6 Module kodunu üret.
+   * Generates the full ES6 module code for the component.
+   * @returns {string} The generated JavaScript code as a string.
    */
   public generate(): string {
     let code = '';

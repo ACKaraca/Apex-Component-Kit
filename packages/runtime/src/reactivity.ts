@@ -3,8 +3,21 @@
  * Türkçe: Bu modül, değişkenlerde yapılan değişiklikleri izleyen reaktif proxy'ler oluşturur.
  */
 
+/**
+ * A callback function that is invoked when a reactive property changes.
+ * @param newValue The new value of the property.
+ * @param oldValue The previous value of the property.
+ */
 export type WatcherCallback = (newValue: any, oldValue: any) => void;
 
+/**
+ * An interface representing a reactive object. It includes internal properties
+ * for managing the original state and watchers.
+ * @template T The type of the original object.
+ * @property {T} _original - A shallow copy of the original object.
+ * @property {Map<string, WatcherCallback[]>} _watchers - A map of property names to an array of watcher callbacks.
+ * @property {true} _isReactive - A flag to identify the object as reactive.
+ */
 export interface ReactiveObject<T> {
   _original: T;
   _watchers: Map<string, WatcherCallback[]>;
@@ -12,7 +25,11 @@ export interface ReactiveObject<T> {
 }
 
 /**
- * Bir objeyi reaktif hale getir.
+ * Creates a reactive proxy for an object. The proxy intercepts property access
+ * and mutations, allowing for change detection and watcher execution.
+ * @template T The type of the object.
+ * @param {T} obj The object to make reactive.
+ * @returns {T & ReactiveObject<T>} A new reactive proxy wrapping the original object.
  */
 export function createReactive<T extends object>(obj: T): T & ReactiveObject<T> {
   const watchers: Map<string, WatcherCallback[]> = new Map();

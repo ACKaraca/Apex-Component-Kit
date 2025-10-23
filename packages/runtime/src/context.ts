@@ -7,16 +7,35 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Represents the internal value of a Context, including its subscribers.
+ * @template T The type of the context value.
+ * @property {T} value - The current value of the context.
+ * @property {Set<(value: T) => void>} subscribers - A set of functions that subscribe to context changes.
+ */
 export interface ContextValue<T = any> {
   value: T;
   subscribers: Set<(value: T) => void>;
 }
 
+/**
+ * Props for a ContextProvider component.
+ * @template T The type of the context value.
+ * @property {T} value - The value to be provided by this provider.
+ * @property {any} children - The child components that will consume the context.
+ */
 export interface ContextProviderProps<T = any> {
   value: T;
   children: any;
 }
 
+/**
+ * Configuration options for creating a new Context.
+ * @template T The type of the context value.
+ * @property {T} [defaultValue] - The default value for the context.
+ * @property {string} [displayName] - A display name for debugging purposes.
+ * @property {(prevValue: T, nextValue: T) => number} [calculateChangedBits] - A function to determine if a context update should notify consumers.
+ */
 export interface ContextConfig<T = any> {
   defaultValue?: T;
   displayName?: string;

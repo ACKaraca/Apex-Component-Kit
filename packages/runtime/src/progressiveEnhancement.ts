@@ -7,6 +7,14 @@
 // TYPES
 // ============================================================================
 
+/**
+ * Defines a feature that can be progressively enhanced.
+ * @interface ProgressiveFeature
+ * @property {string} name - The unique name of the feature.
+ * @property {() => boolean} check - A function that returns true if the feature is available in the current environment.
+ * @property {() => void} [fallback] - A function to execute if the feature is not available (graceful degradation).
+ * @property {() => void} [enhance] - A function to execute if the feature is available, to enhance the user experience.
+ */
 export interface ProgressiveFeature {
   name: string;
   check: () => boolean;
@@ -14,12 +22,26 @@ export interface ProgressiveFeature {
   enhance?: () => void;
 }
 
+/**
+ * Configuration for the ProgressiveEnhancementManager.
+ * @interface ProgressiveConfig
+ * @property {ProgressiveFeature[]} features - An array of features to manage.
+ * @property {boolean} [gracefulDegradation=true] - If true, runs the fallback for unavailable features.
+ * @property {boolean} [autoEnhance=true] - If true, automatically runs the enhancement for available features.
+ */
 export interface ProgressiveConfig {
   features: ProgressiveFeature[];
   gracefulDegradation?: boolean;
   autoEnhance?: boolean;
 }
 
+/**
+ * The current state of all managed features.
+ * @interface EnhancementState
+ * @property {string[]} available - An array of names of available features.
+ * @property {string[]} unavailable - An array of names of unavailable features.
+ * @property {string[]} degraded - An array of names of features for which a fallback has been executed.
+ */
 export interface EnhancementState {
   available: string[];
   unavailable: string[];

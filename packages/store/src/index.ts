@@ -5,17 +5,71 @@
 import { createReactive, watch } from '@ack/runtime';
 
 // Types
+/**
+ * A function that mutates the store's state.
+ * @template S The type of the state.
+ * @template P The type of the payload.
+ * @param {S} state - The current state.
+ * @param {P} payload - The payload for the mutation.
+ */
 export type MutationFn<S, P = void> = (state: S, payload: P) => void | Promise<void>;
+
+/**
+ * A function that can perform asynchronous operations and commit mutations.
+ * @template S The type of the state.
+ * @template P The type of the payload.
+ * @template R The return type of the action.
+ * @param {ActionContext<S>} context - The action context, providing access to the state, getters, and other actions.
+ * @param {P} payload - The payload for the action.
+ * @returns {R | Promise<R>} The result of the action.
+ */
 export type ActionFn<S, P = void, R = void> = (context: ActionContext<S>, payload: P) => R | Promise<R>;
+
+/**
+ * A function that computes a derived state from the store's state.
+ * @template S The type of the state.
+ * @template R The return type of the getter.
+ * @param {S} state - The current state.
+ * @returns {R} The computed value.
+ */
 export type GetterFn<S, R = any> = (state: S) => R;
+
+/**
+ * A function that is called whenever the store's state changes.
+ * @template S The type of the state.
+ * @param {S} state - The new state.
+ * @param {S} oldState - The old state.
+ */
 export type Subscriber<S> = (state: S, oldState: S) => void;
+
+/**
+ * A function that is called whenever an action is dispatched.
+ * @template S The type of the state.
+ * @param {{ action: string; payload?: any; timestamp: number }} payload - Information about the dispatched action.
+ */
 export type ActionSubscriber<S> = (payload: { action: string; payload?: any; timestamp: number }) => void;
 
+/**
+ * The context provided to a mutation.
+ * @template S The type of the state.
+ * @interface MutationContext
+ * @property {S} state - The current state.
+ * @property {Record<string, MutationFn<S, any>>} mutations - A dictionary of all mutations.
+ */
 export interface MutationContext<S> {
   state: S;
   mutations: Record<string, MutationFn<S, any>>;
 }
 
+/**
+ * The context provided to an action.
+ * @template S The type of the state.
+ * @interface ActionContext
+ * @property {S} state - The current state.
+ * @property {(name: string, payload?: any) => void | Promise<void>} commit - A function to commit a mutation.
+ * @property {(name: string, payload?: any) => Promise<any>} dispatch - A function to dispatch an action.
+ * @property {Record<string, any>} getters - A dictionary of all getters.
+ */
 export interface ActionContext<S> {
   state: S;
   commit(name: string, payload?: any): void | Promise<void>;
@@ -23,10 +77,25 @@ export interface ActionContext<S> {
   getters: Record<string, any>;
 }
 
+/**
+ * The base interface for a store's state.
+ * @interface StoreState
+ */
 export interface StoreState {
   [key: string]: any;
 }
 
+/**
+ * Configuration options for creating a new store.
+ * @template S The type of the state.
+ * @interface StoreOptions
+ * @property {S} state - The initial state of the store.
+ * @property {Record<string, MutationFn<S, any>>} [mutations] - A dictionary of mutations.
+ * @property {Record<string, ActionFn<S, any, any>>} [actions] - A dictionary of actions.
+ * @property {Record<string, GetterFn<S, any>>} [getters] - A dictionary of getters.
+ * @property {StoragePlugin<S>[]} [plugins] - An array of storage plugins.
+ * @property {boolean} [strict=true] - If true, warns when state is mutated outside of mutations.
+ */
 export interface StoreOptions<S extends StoreState = StoreState> {
   state: S;
   mutations?: Record<string, MutationFn<S, any>>;
@@ -36,11 +105,24 @@ export interface StoreOptions<S extends StoreState = StoreState> {
   strict?: boolean;
 }
 
+/**
+ * A plugin for persisting and rehydrating the store's state.
+ * @template S The type of the state.
+ * @interface StoragePlugin
+ * @property {(state: S, key: string) => void | Promise<void>} save - A function to save the state.
+ * @property {(key: string) => S | null | Promise<S | null>} load - A function to load the state.
+ */
 export interface StoragePlugin<S> {
   save(state: S, key: string): void | Promise<void>;
   load(key: string): S | null | Promise<S | null>;
 }
 
+/**
+ * An adapter for connecting the store to developer tools.
+ * @interface DevToolsAdapter
+ * @property {(action: string, state: any) => void} send - A function to send an action and state to the dev tools.
+ * @property {(callback: (message: any) => void) => void} subscribe - A function to subscribe to messages from the dev tools.
+ */
 export interface DevToolsAdapter {
   send(action: string, state: any): void;
   subscribe(callback: (message: any) => void): void;

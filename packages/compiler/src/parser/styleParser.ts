@@ -1,8 +1,17 @@
 /**
- * StyleParser - Scoped CSS'i işler
- * Türkçe: Bu sınıf, CSS kurallarını parse eder ve scope'ları yönetir.
+ * The StyleParser class is responsible for parsing CSS from a `<style>` block,
+ * handling scoped CSS by adding a unique scope ID to selectors.
+ * @class StyleParser
  */
 
+/**
+ * Represents the result of parsing a `<style>` block.
+ * @interface ParsedStyle
+ * @property {string} content - The original CSS content.
+ * @property {boolean} scoped - Whether the CSS is scoped.
+ * @property {string} scopeId - The unique ID used for scoping.
+ * @property {StyleRule[]} rules - An array of parsed CSS rules.
+ */
 export interface ParsedStyle {
   content: string;
   scoped: boolean;
@@ -10,12 +19,25 @@ export interface ParsedStyle {
   rules: StyleRule[];
 }
 
+/**
+ * Represents a single CSS rule (e.g., `div { color: red; }`).
+ * @interface StyleRule
+ * @property {string} selector - The CSS selector (e.g., 'div', '.my-class').
+ * @property {string} content - The raw content of the CSS rule block.
+ * @property {CSSProperty[]} properties - An array of parsed CSS properties within the rule.
+ */
 export interface StyleRule {
   selector: string;
   content: string;
   properties: CSSProperty[];
 }
 
+/**
+ * Represents a single CSS property (e.g., `color: red`).
+ * @interface CSSProperty
+ * @property {string} name - The property name (e.g., 'color').
+ * @property {string} value - The property value (e.g., 'red').
+ */
 export interface CSSProperty {
   name: string;
   value: string;
@@ -25,13 +47,21 @@ export class StyleParser {
   private source: string;
   private scopeId: string;
 
+  /**
+   * Creates an instance of StyleParser.
+   * @param {string} source The CSS source code to parse.
+   * @param {string} [scopeId] An optional scope ID to use. If not provided, a random one will be generated.
+   */
   constructor(source: string, scopeId?: string) {
     this.source = source;
     this.scopeId = scopeId || `ack-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
-   * CSS'i parse et.
+   * Parses the CSS source and returns a structured representation.
+   * If `scoped` is true, it adds the scope ID to all selectors.
+   * @param {boolean} [scoped=true] Whether to apply scoping to the CSS rules.
+   * @returns {ParsedStyle} A structured representation of the parsed CSS.
    */
   public parse(scoped: boolean = true): ParsedStyle {
     const rules = this.parseRules();

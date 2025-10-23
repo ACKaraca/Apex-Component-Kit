@@ -5,6 +5,14 @@
 
 import { ReactiveVariable } from '../types/index';
 
+/**
+ * Represents a reference to a variable within the source code.
+ * @interface VariableReference
+ * @property {string} name - The name of the variable.
+ * @property {number} line - The line number where the reference occurs.
+ * @property {number} column - The column number where the reference occurs.
+ * @property {'assignment' | 'read' | 'function_call'} context - The context in which the variable is used.
+ */
 export interface VariableReference {
   name: string;
   line: number;
@@ -12,17 +20,28 @@ export interface VariableReference {
   context: string; // assignment | read | function_call
 }
 
+/**
+ * The ReactivityAnalyzer class is responsible for analyzing the script part of a component
+ * to identify reactive variables, their references, and dependencies.
+ * @class ReactivityAnalyzer
+ */
 export class ReactivityAnalyzer {
   private source: string;
   private variables: Map<string, ReactiveVariable> = new Map();
   private references: VariableReference[] = [];
 
+  /**
+   * Creates an instance of ReactivityAnalyzer.
+   * @param {string} source The script source code to analyze.
+   */
   constructor(source: string) {
     this.source = source;
   }
 
   /**
-   * Reaktivite analizini gerçekleştir.
+   * Analyzes the script to identify reactive variables and their dependencies.
+   * @param {ReactiveVariable[]} reactiveVariables An array of variables declared with `let` or `var`.
+   * @returns {ReactiveVariable[]} An array of fully analyzed reactive variables, including their dependencies.
    */
   public analyze(reactiveVariables: ReactiveVariable[]): ReactiveVariable[] {
     this.variables.clear();

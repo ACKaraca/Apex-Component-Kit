@@ -11,7 +11,15 @@ import path from 'path';
 // ============================================================================
 
 /**
- * Route Meta - Route'a ait meta bilgileri
+ * Metadata associated with a route, for handling things like page titles,
+ * authentication, and layouts.
+ * @interface RouteMeta
+ * @property {string} [title] - The title of the page.
+ * @property {string} [description] - A description for the page.
+ * @property {boolean} [requiresAuth=false] - If true, the user must be authenticated to access this route.
+ * @property {string[]} [roles] - An array of roles required to access this route.
+ * @property {string} [layout] - The name of the layout component to use for this route.
+ * @property {boolean} [preload=false] - If true, the route's component will be preloaded.
  */
 export interface RouteMeta {
   title?: string;
@@ -24,14 +32,26 @@ export interface RouteMeta {
 }
 
 /**
- * Route Parametreleri - URL'den çıkartılan parametreler
+ * Parameters extracted from a dynamic URL path.
+ * @interface RouteParams
+ * @property {string | string[]} [key: string] - The value of a URL parameter.
  */
 export interface RouteParams {
   [key: string]: string | string[];
 }
 
 /**
- * Route Context - Aktif route hakkında bilgi
+ * The context of the current route, providing information about the path,
+ * parameters, and matched routes.
+ * @interface RouteContext
+ * @property {string} path - The current URL path.
+ * @property {string} name - The name of the route.
+ * @property {string} component - The path to the component file for the route.
+ * @property {RouteParams} params - The URL parameters.
+ * @property {Record<string, string>} query - The query string parameters.
+ * @property {RouteMeta} [meta] - The metadata for the route.
+ * @property {Route[]} matched - An array of all matched routes (including parent routes).
+ * @property {Route} [parent] - The parent route, if it exists.
  */
 export interface RouteContext {
   path: string;
@@ -45,22 +65,36 @@ export interface RouteContext {
 }
 
 /**
- * Middleware Fonksiyonu Türü
+ * A function that is executed as part of a middleware pipeline.
+ * @param {RouteContext} ctx - The current route context.
+ * @param {() => Promise<void>} next - A function to call to pass control to the next middleware.
  */
 export type MiddlewareFn = (ctx: RouteContext, next: () => Promise<void>) => Promise<void>;
 
 /**
- * Route Guard Fonksiyonu Türü - false dönerse navigasyon iptal
+ * A function that can prevent navigation to or from a route.
+ * @param {RouteContext} ctx - The current route context.
+ * @returns {boolean | Promise<boolean>} If false, the navigation is cancelled.
  */
 export type GuardFn = (ctx: RouteContext) => boolean | Promise<boolean>;
 
 /**
- * Navigation Hook Fonksiyonu Türü
+ * A function that is executed at a specific point in the navigation lifecycle.
+ * @param {RouteContext} ctx - The current route context.
  */
 export type HookFn = (ctx: RouteContext) => void | Promise<void>;
 
 /**
- * Route Tanımı
+ * Defines a route and its properties.
+ * @interface Route
+ * @property {string} path - The URL path for the route.
+ * @property {string} component - The path to the component file.
+ * @property {string} [name] - A unique name for the route.
+ * @property {RouteMeta} [meta] - Metadata for the route.
+ * @property {Route[]} [children] - An array of nested routes.
+ * @property {string} [layout] - The layout component for this route.
+ * @property {GuardFn[]} [beforeEnter] - Guards to run before entering the route.
+ * @property {GuardFn[]} [beforeLeave] - Guards to run before leaving the route.
  */
 export interface Route {
   path: string;
@@ -74,7 +108,14 @@ export interface Route {
 }
 
 /**
- * Router Konfigürasyonu
+ * Configuration for the router.
+ * @interface RouterConfig
+ * @property {Route[]} routes - An array of route definitions.
+ * @property {string} [basePath='/'] - The base path for all routes.
+ * @property {string} [layout] - A default layout component for all routes.
+ * @property {MiddlewareFn[]} [middlewares] - An array of middleware functions to run on every navigation.
+ * @property {HookFn[]} [beforeEach] - Hooks to run before each navigation.
+ * @property {HookFn[]} [afterEach] - Hooks to run after each navigation.
  */
 export interface RouterConfig {
   routes: Route[];
@@ -86,7 +127,12 @@ export interface RouterConfig {
 }
 
 /**
- * Router Durumu
+ * The current state of the router.
+ * @interface RouterState
+ * @property {RouteContext | null} current - The current route context.
+ * @property {RouteContext | null} previous - The previous route context.
+ * @property {boolean} isNavigating - A flag indicating if a navigation is in progress.
+ * @property {RouteContext[]} history - An array of previously visited route contexts.
  */
 export interface RouterState {
   current: RouteContext | null;

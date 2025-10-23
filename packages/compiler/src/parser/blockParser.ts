@@ -1,8 +1,16 @@
 /**
- * BlockParser - <script>, <template>, <style> bloklarını ayırır
- * Türkçe: Bu sınıf, .ack dosyasını üç ana blok'a ayırmayı sağlar.
+ * The BlockParser class is responsible for separating an .ack file's content
+ * into its three main constituent blocks: `<script>`, `<template>`, and `<style>`.
+ * @class BlockParser
  */
 
+/**
+ * An interface representing the separated blocks of an .ack file.
+ * @interface ParsedBlocks
+ * @property {string} script - The content of the `<script>` block.
+ * @property {string} template - The content of the `<template>` block.
+ * @property {string} style - The content of the `<style>` block.
+ */
 export interface ParsedBlocks {
   script: string;
   template: string;
@@ -12,12 +20,17 @@ export interface ParsedBlocks {
 export class BlockParser {
   private source: string;
 
+  /**
+   * Creates an instance of BlockParser.
+   * @param {string} source The raw source code of the .ack file.
+   */
   constructor(source: string) {
     this.source = source;
   }
 
   /**
-   * Bloklarını parse et.
+   * Parses the source code and extracts the content of the script, template, and style blocks.
+   * @returns {ParsedBlocks} An object containing the content of each block.
    */
   public parse(): ParsedBlocks {
     const blocks: ParsedBlocks = {
